@@ -40,7 +40,6 @@
         .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
         .btn-outline:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold-hover); }
         
-        /* Answer Box ကို အမြဲပေါ်နေအောင် ပြင်ထားပါတယ် */
         .output-box { 
             background: #000000; 
             border: 1px solid var(--border-color); 
@@ -58,7 +57,6 @@
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        /* PDF Export Template Styling */
         #pdf-export { display: none; width: 210mm; min-height: 297mm; padding: 25mm 20mm; background-color: var(--bg-color); color: var(--text-main); box-sizing: border-box; }
         .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; justify-content: space-between; }
         .pdf-gold-box { border-left: 4px solid var(--gold); background: var(--panel-bg); padding: 22px; margin-bottom: 35px; }
@@ -70,7 +68,7 @@
 <div class="container">
     <div class="header-top">
         <h2>Solo Genius AI Intelligence Portal</h2>
-        <div class="system-status">Engine: DeepSeek &bull; Protocol: Public Intelligence Standard</div>
+        <div class="system-status">Engine: OpenAI GPT-4o &bull; Protocol: Public Intelligence Standard</div>
     </div>
 
     <!-- AI Intelligence Extraction Engine Panel -->
@@ -113,6 +111,9 @@
 </div>
 
 <script>
+    // Boss ပေးထားသော OpenAI API Key ကို တိုက်ရိုက်ထည့်သွင်းပြီးပါပြီ
+    const OPENAI_API_KEY = "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";
+
     async function processRequest() {
         const input = document.getElementById('userQuestion').value.trim();
         const status = document.getElementById('loadingStatus');
@@ -137,11 +138,15 @@
         COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application.`;
 
         try {
-            const res = await fetch('/api/chat', {
+            // OpenAI GPT-4o API ဆီသို့ တိုက်ရိုက် ချိတ်ဆက်ခြင်း
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`
+                },
                 body: JSON.stringify({
-                    model: "deepseek-chat", // DeepSeek Model သို့ အပြည့်အစုံ ချိတ်ဆက်ထားသည်
+                    model: "gpt-4o",
                     messages: [
                         { role: "system", content: systemPrompt },
                         { role: "user", content: input }
@@ -153,7 +158,7 @@
             const data = await res.json();
             
             if (!res.ok) {
-                throw new Error(data.error?.message || data.message || "Failed to process request");
+                throw new Error(data.error?.message || "Failed to process request");
             }
 
             const answerText = data.choices[0].message.content;
