@@ -110,12 +110,7 @@
     <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
 
-<!-- Load Config File First -->
-<script src="config.js"></script>
 <script>
-    // config.js မှ OpenAI API Key ကို အသုံးပြုခြင်း
-    const OPENAI_API_KEY = typeof CONFIG !== 'undefined' ? CONFIG.OPENAI_API_KEY : "";
-
     async function processRequest() {
         const input = document.getElementById('userQuestion').value.trim();
         const status = document.getElementById('loadingStatus');
@@ -129,50 +124,28 @@
             return;
         }
 
-        if (!OPENAI_API_KEY) {
-            err.innerText = "Error: API Key not found in config.js.";
-            err.style.display = 'block';
-            return;
-        }
-
         status.style.display = 'block';
         err.style.display = 'none';
         output.innerText = "Processing...";
         output.style.color = "var(--text-muted)";
         btn.disabled = true;
 
-        const systemPrompt = `[PUBLIC INTELLIGENCE STANDARD] You are a rigorous thinker, strategic advisor, and intellectually honest assistant. 
-        OPERATIONAL PRINCIPLES: 1. Useful Truth over Pleasant Agreement. 2. Distinguish clearly between facts and speculation. 3. Use First Principles Reasoning. 
-        COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application.`;
-
         try {
-            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+            const res = await fetch('/api/chat', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "gpt-4o",
-                    messages: [
-                        { role: "system", content: systemPrompt },
-                        { role: "user", content: input }
-                    ],
-                    temperature: 0.3
-                })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: input })
             });
 
             const data = await res.json();
             
             if (!res.ok) {
-                throw new Error(data.error?.message || "Failed to process request");
+                throw new Error(data.error || "Failed to process request");
             }
 
-            const answerText = data.choices[0].message.content;
-            
-            output.innerText = answerText;
+            output.innerText = data.reply;
             output.style.color = "var(--text-bright)";
-            document.getElementById('pdfContent').value = answerText;
+            document.getElementById('pdfContent').value = data.reply;
         } catch (e) {
             err.innerText = "System Error: " + e.message;
             err.style.display = 'block';
