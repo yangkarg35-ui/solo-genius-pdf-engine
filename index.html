@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Solo Genius AI Intelligence Portal</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #d1d1d1;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+        .control-panel {
+            max-width: 850px;
+            margin: 0 auto 40px auto;
+            background: #0c0f14;
+            padding: 35px;
+            border: 1px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        h2 { 
+            color: #d4af37; 
+            margin-top: 0; 
+            letter-spacing: 2px;
+            font-size: 22px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+        }
+        label {
+            display: block;
+            color: #d4af37;
+            font-size: 13px;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #2a2a2a;
+            padding: 15px;
+            font-size: 14px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            font-family: inherit;
+        }
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        textarea { height: 150px; line-height: 1.6; }
+        .btn-group { display: flex; gap: 15px; }
+        button {
+            background: #d4af37;
+            color: #050505;
+            font-weight: bold;
+            padding: 15px 25px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #e6c547;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+        }
+        .btn-secondary:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: #e6c547;
+        }
+
+        /* Solo Genius Standard PDF Masterpiece Template */
+        #pdf-export {
+            display: none;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm 20mm;
+            background-color: #050505;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+        .brand-header {
+            font-size: 12px;
+            letter-spacing: 3px;
+            color: #d4af37;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+        .gold-box {
+            border-left: 4px solid #d4af37;
+            background: #0c0f14;
+            padding: 22px;
+            margin-bottom: 35px;
+        }
+        .gold-text { 
+            color: #d4af37; 
+            font-weight: bold; 
+            font-style: italic; 
+            font-size: 17px; 
+            margin-bottom: 8px; 
+        }
+        .formula { 
+            color: #d4af37; 
+            font-size: 13px; 
+            letter-spacing: 1px; 
+            text-transform: uppercase;
+        }
+        .content-body { 
+            font-size: 13.5px; 
+            line-height: 1.9; 
+            color: #d1d1d1; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+        }
+        .loading { color: #d4af37; font-style: italic; margin-top: 10px; display: none; }
+        
+        .answer-preview {
+            background: #000000;
+            border: 1px solid #2a2a2a;
+            border-left: 3px solid #d4af37;
+            padding: 20px;
+            margin-top: 25px;
+            color: #e0e0e0;
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="control-panel">
+    <h2>Solo Genius Intelligence Portal</h2>
+    
+    <label>Groq API Key:</label>
+    <input type="text" id="apiKey" placeholder="Enter your Groq API key here...">
+
+    <label>Ask a Question / Topic:</label>
+    <textarea id="userQuestion" placeholder="Enter inquiry or subject here..."></textarea>
+    
+    <div class="btn-group">
+        <button onclick="askSoloGeniusAI()">1. Generate Genius Answer</button>
+        <button class="btn-secondary" onclick="generatePDF()">2. Export Luxury PDF</button>
+    </div>
+    
+    <div id="loadingStatus" class="loading">Processing through Solo Genius Core & 5% Hidden Truths...</div>
+    <div id="answerPreview" class="answer-preview"></div>
+</div>
+
+<!-- Export Template -->
+<div id="pdf-export">
+    <div class="brand-header">Solo Genius Musical School &bull; Exclusive Intelligence</div>
+    <div class="gold-box">
+        <div class="gold-text">"Every Skill is an Engine."</div>
+        <div class="formula">Framework: Input → Process → Output → Feedback → Repeat</div>
+    </div>
+    <div id="dynamic-content" class="content-body"></div>
+</div>
+
+<script>
+    async function askSoloGeniusAI() {
+        const apiKey = document.getElementById('apiKey').value.trim();
+        const question = document.getElementById('userQuestion').value.trim();
+        const statusDiv = document.getElementById('loadingStatus');
+        const previewDiv = document.getElementById('answerPreview');
+
+        if (!apiKey) {
+            alert('Please enter your Groq API key.');
+            return;
+        }
+        if (!question) {
+            alert('Please enter a question or topic first.');
+            return;
+        }
+
+        statusDiv.style.display = 'block';
+        previewDiv.style.display = 'none';
+
+        try {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    messages: [{
+                        role: "system",
+                        content: "You are the core intelligence system of SOLO GENIUS MUSICAL SCHOOL (Vibe: Solo Genius Vibe, Status & Belonging, Silent & Mysterious, Direct High-End Connection). Deliver high-quality, elite answers embedding the 5% Hidden Truths, deep mental models, precise structural observations, and technical mastery. Avoid idle talk, attention-seeking, or generic fluff. Keep it direct, high-end, sophisticated, and deeply architectural."
+                    }, {
+                        role: "user",
+                        content: question
+                    }]
+                })
+            });
+
+            const data = await response.json();
+            if (data.choices && data.choices[0].message) {
+                const answerText = data.choices[0].message.content;
+                previewDiv.innerText = answerText;
+                previewDiv.style.display = 'block';
+            } else {
+                alert('Intelligence generation failed. Check your API key.');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('An error occurred while connecting to the system.');
+        } finally {
+            statusDiv.style.display = 'none';
+        }
+    }
+
+    function generatePDF() {
+        const previewDiv = document.getElementById('answerPreview');
+        const text = previewDiv.innerText;
+        
+        if (!text) {
+            alert('Please generate an answer first.');
+            return;
+        }
+
+        const container = document.getElementById('pdf-export');
+        document.getElementById('dynamic-content').innerText = text;
+        container.style.display = 'block';
+        
+        const opt = {
+            margin: 0,
+            filename: 'Solo_Genius_Masterpiece.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(container).set(opt).save().then(() => {
+            container.style.display = 'none';
+        });
+    }
+</script>
+</body>
+</html>
