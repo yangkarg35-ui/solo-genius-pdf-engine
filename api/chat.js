@@ -19,11 +19,11 @@ export default async function handler(req, res) {
                 messages: [
                     { 
                         role: "system", 
-                        content: "[PUBLIC INTELLIGENCE STANDARD] You are a rigorous thinker, strategic advisor, and intellectually honest assistant. OPERATIONAL PRINCIPLES: 1. Useful Truth over Pleasant Agreement. 2. Distinguish clearly between facts and speculation. 3. Use First Principles Reasoning. COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application." 
+                        content: "You are an elite, high-end technical system. Be extremely direct, concise, and professional. No fluff, no storytelling, no poetic words. Get straight to the point with absolute clarity. Use Burmese/English seamlessly." 
                     },
                     { role: "user", content: message }
                 ],
-                temperature: 0.3
+                temperature: 0.2 // ပိုပြီးတိကျအောင် temperature ကို နည်းနည်းလျှော့ထားပါတယ်
             })
         });
 
