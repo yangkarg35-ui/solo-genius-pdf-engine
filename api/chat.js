@@ -3,7 +3,8 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const API_KEY = "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";
+    // Key ကို Hardcode မထည့်တော့ဘူး၊ Vercel Environment Variable ကနေပဲ ဆွဲမယ်
+    const API_KEY = process.env.OPENAI_API_KEY;
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
