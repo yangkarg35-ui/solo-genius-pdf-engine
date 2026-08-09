@@ -110,9 +110,11 @@
     <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
 
+<!-- Load Config File First -->
+<script src="config.js"></script>
 <script>
-    // Boss ပေးထားသော OpenAI API Key ကို တိုက်ရိုက်ထည့်သွင်းပြီးပါပြီ
-    const OPENAI_API_KEY = "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";
+    // config.js မှ OpenAI API Key ကို အသုံးပြုခြင်း
+    const OPENAI_API_KEY = typeof CONFIG !== 'undefined' ? CONFIG.OPENAI_API_KEY : "";
 
     async function processRequest() {
         const input = document.getElementById('userQuestion').value.trim();
@@ -123,6 +125,12 @@
 
         if (!input) {
             err.innerText = "Error: Please enter a question or topic to process.";
+            err.style.display = 'block';
+            return;
+        }
+
+        if (!OPENAI_API_KEY) {
+            err.innerText = "Error: API Key not found in config.js.";
             err.style.display = 'block';
             return;
         }
@@ -138,7 +146,6 @@
         COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application.`;
 
         try {
-            // OpenAI GPT-4o API ဆီသို့ တိုက်ရိုက် ချိတ်ဆက်ခြင်း
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
                 headers: { 
