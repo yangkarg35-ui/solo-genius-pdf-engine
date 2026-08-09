@@ -155,7 +155,10 @@ FINAL GOAL: Do not aim to sound intelligent. Aim to make the user's thinking bet
         try {
             const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
+                headers: { 
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${API_KEY}` 
+                },
                 body: JSON.stringify({
                     model: "gpt-4o",
                     messages: [
@@ -165,16 +168,20 @@ FINAL GOAL: Do not aim to sound intelligent. Aim to make the user's thinking bet
                     temperature: 0.3
                 })
             });
-            const data = await res.json();
-            if (data.error) {
-                throw new Error(data.error.message);
+
+            if (!res.ok) {
+                const errData = await res.json();
+                throw new Error(errData.error?.message || `HTTP error! status: ${res.status}`);
             }
+
+            const data = await res.json();
             const answerText = data.choices[0].message.content;
+            
             output.innerText = answerText;
             output.style.display = 'block';
             document.getElementById('pdfContent').value = answerText;
         } catch (e) {
-            err.innerText = "System Error: " + e.message;
+            err.innerText = "API Connection Error: " + e.message + " (Note: Browsers restrict direct OpenAI API calls due to CORS. Consider deploying a backend proxy if needed.)";
             err.style.display = 'block';
         } finally {
             status.style.display = 'none';
