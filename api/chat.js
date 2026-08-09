@@ -3,8 +3,8 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    // Boss ရဲ့ API Key ကို Backend မှာ သိမ်းထားတာမို့ ပိုလုံခြုံသွားပါပြီ
-    const API_KEY = "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";
+    // Boss ပေးထားတဲ့ Key အသစ်နဲ့ အစားထိုးလိုက်ပါပြီ
+    const API_KEY = "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";
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
