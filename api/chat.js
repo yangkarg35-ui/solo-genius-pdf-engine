@@ -3,7 +3,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const API_KEY = "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";
+    const API_KEY = "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";
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
