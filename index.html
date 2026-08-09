@@ -16,7 +16,7 @@
         .section { margin-bottom: 40px; border-bottom: 1px solid #1a1a1a; padding-bottom: 30px; }
         
         #pdf-export { display: none; width: 210mm; padding: 25mm 20mm; background-color: #050505; color: #e0e0e0; font-family: sans-serif; }
-        .gold-box { border-left: 4px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; }
+        .gold-box { border-left: 4px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; line-height: 1.8; }
     </style>
 </head>
 <body>
@@ -30,7 +30,7 @@
         <textarea id="aiQuestion" placeholder="Enter inquiry..."></textarea>
         <button class="btn" onclick="askAI()">Generate Answer</button>
         <label>AI Answer Output:</label>
-        <textarea id="aiAnswer" readonly></textarea>
+        <textarea id="aiAnswer" readonly style="height: 250px;"></textarea>
     </div>
 
     <!-- 2. PDF Editor Section -->
@@ -43,7 +43,7 @@
 
 <!-- Export Template -->
 <div id="pdf-export">
-    <div style="color: #d4af37; margin-bottom: 20px;">SOLO GENIUS MUSICAL SCHOOL</div>
+    <div style="color: #d4af37; margin-bottom: 20px; font-size: 12px; letter-spacing: 3px;">SOLO GENIUS MUSICAL SCHOOL &bull; EXCLUSIVE STANDARD</div>
     <div class="gold-box" id="dynamic-content"></div>
 </div>
 
@@ -53,21 +53,42 @@
     const GROQ_API_KEY = part1 + part2;
 
     async function askAI() {
-        const question = document.getElementById('aiQuestion').value;
+        const question = document.getElementById('aiQuestion').value.trim();
         const answerBox = document.getElementById('aiAnswer');
         
+        if (!question) {
+            alert('Please enter a question.');
+            return;
+        }
+
+        answerBox.value = "Processing through Solo Genius Core & 5% Hidden Truths...";
+
         try {
             const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ role: "system", content: "Solo Genius System: Provide elite, direct, architectural answers with 5% hidden truths." }, { role: "user", content: question }]
+                    messages: [{ 
+                        role: "system", 
+                        content: "You are the core intelligence of SOLO GENIUS MUSICAL SCHOOL. Your vibe is Silent & Mysterious, Direct High-End Connection, Status & Belonging, Luxury Feeling. Never use generic fluff, idle talk, or basic conversational filler. Provide deep, highly architectural, structural insights embedded with 5% Hidden Truths, technical mastery, and elite mental models. If the user asks in Burmese, reply in professional, sharp, sophisticated, and profound Burmese matching the luxury standard of Solo Genius. Cut straight to the core truth without wasting words." 
+                    }, { 
+                        role: "user", 
+                        content: question 
+                    }]
                 })
             });
             const data = await res.json();
-            answerBox.value = data.choices[0].message.content;
-        } catch(e) { alert("Error connecting to system."); }
+            if (data.choices && data.choices[0].message) {
+                answerBox.value = data.choices[0].message.content;
+            } else {
+                answerBox.value = "Generation failed.";
+            }
+        } catch(e) { 
+            console.error(e);
+            alert("Error connecting to system."); 
+            answerBox.value = "";
+        }
     }
 
     function generatePDF() {
@@ -78,7 +99,7 @@
         const container = document.getElementById('pdf-export');
         container.style.display = 'block';
         
-        html2pdf().from(container).save('Solo_Genius_PDF.pdf').then(() => {
+        html2pdf().from(container).save('Solo_Genius_Masterpiece.pdf').then(() => {
             container.style.display = 'none';
         });
     }
