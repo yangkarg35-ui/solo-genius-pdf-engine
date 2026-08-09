@@ -26,188 +26,21 @@
             box-sizing: border-box;
         }
 
-        .container {
-            max-width: 950px;
-            margin: 0 auto;
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 30px;
-        }
-
-        h2 {
-            color: var(--gold);
-            letter-spacing: 3px;
-            font-size: 18px;
-            text-transform: uppercase;
-            margin: 0;
-        }
-
-        .system-status {
-            font-size: 11px;
-            letter-spacing: 1px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-        }
-
-        .panel-title {
-            color: var(--gold);
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        textarea {
-            width: 100%;
-            height: 180px;
-            background: #000000;
-            color: var(--text-bright);
-            border: 1px solid var(--border-color);
-            padding: 15px;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: vertical;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--gold);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        button {
-            background: var(--gold);
-            color: var(--bg-color);
-            font-weight: bold;
-            font-size: 12px;
-            padding: 12px 24px;
-            border: none;
-            cursor: pointer;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-        }
-
-        button:hover {
-            background: var(--gold-hover);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-        }
-
-        button:disabled {
-            background: #333;
-            color: #666;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-        }
-
-        .btn-outline:hover {
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--gold-hover);
-        }
-
-        .output-box {
-            background: #000000;
-            border: 1px solid var(--border-color);
-            border-left: 3px solid var(--gold);
-            padding: 25px;
-            margin-top: 20px;
-            color: var(--text-bright);
-            font-size: 14px;
-            line-height: 1.8;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            min-height: 150px;
-            display: none;
-        }
-
-        .loading-state {
-            color: var(--gold);
-            font-style: italic;
-            font-size: 13px;
-            margin-top: 15px;
-            display: none;
-            letter-spacing: 1px;
-        }
-
-        .error-banner {
-            background: rgba(255, 0, 0, 0.1);
-            border: 1px solid #ff4444;
-            color: #ff8888;
-            padding: 12px;
-            font-size: 13px;
-            margin-top: 15px;
-            display: none;
-        }
-
-        /* PDF Export Template Styling */
-        #pdf-export {
-            display: none;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 25mm 20mm;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            box-sizing: border-box;
-        }
-
-        .pdf-brand-header {
-            font-size: 11px;
-            letter-spacing: 3px;
-            color: var(--gold);
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .pdf-gold-box {
-            border-left: 4px solid var(--gold);
-            background: var(--panel-bg);
-            padding: 22px;
-            margin-bottom: 35px;
-        }
-
-        .pdf-content-body {
-            font-size: 13.5px;
-            line-height: 1.9;
-            color: var(--text-bright);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+        .container { max-width: 950px; margin: 0 auto; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { color: var(--gold); letter-spacing: 3px; font-size: 18px; text-transform: uppercase; margin: 0; }
+        .system-status { font-size: 11px; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
+        .panel { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .panel-title { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+        textarea { width: 100%; height: 180px; background: #000000; color: var(--text-bright); border: 1px solid var(--border-color); padding: 15px; box-sizing: border-box; font-family: inherit; font-size: 14px; line-height: 1.6; resize: vertical; }
+        textarea:focus { outline: none; border-color: var(--gold); }
+        .btn-group { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        button { background: var(--gold); color: var(--bg-color); font-weight: bold; font-size: 12px; padding: 12px 24px; border: none; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s ease; }
+        button:hover { background: var(--gold-hover); }
+        .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+        .output-box { background: #000000; border: 1px solid var(--border-color); border-left: 3px solid var(--gold); padding: 25px; margin-top: 20px; color: var(--text-bright); font-size: 14px; line-height: 1.8; white-space: pre-wrap; display: none; }
+        .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
+        .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -215,183 +48,63 @@
 <div class="container">
     <div class="header-top">
         <h2>Solo Genius AI Intelligence Portal</h2>
-        <div class="system-status">Engine: 5% Knowledge Extraction &bull; Protocol: Active</div>
+        <div class="system-status">Engine: OpenAI GPT-4o &bull; Protocol: Public Intelligence Standard</div>
     </div>
 
-    <!-- 5% Knowledge Extraction Engine Panel -->
     <div class="panel">
-        <div class="panel-title">5% Knowledge Extraction Engine (Book Analysis)</div>
-        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Insert Book Title, Core Concepts, or Text to Extract:</label>
-        <textarea id="userQuestion" placeholder="စာအုပ်အမည် (သို့မဟုတ်) စာအုပ်ထဲက အဓိက အကြောင်းအရာများကို ဤနေရာတွင် ထည့်ပါ..."></textarea>
-        
+        <div class="panel-title">Intelligence & Extraction Engine</div>
+        <textarea id="userQuestion" placeholder="မေးခွန်း သို့မဟုတ် ခွဲခြမ်းစိတ်ဖြာရန် အချက်အလက်များ ထည့်သွင်းပါ..."></textarea>
         <div class="btn-group">
-            <button id="generateBtn" onclick="executeExtractionWorkflow()">1. Extract 5% Essential Insight</button>
-            <button class="btn-outline" onclick="copyAnswerToEditor()">Transfer to PDF Editor</button>
+            <button id="generateBtn" onclick="processRequest()">Run Intelligence Protocol</button>
+            <button class="btn-outline" onclick="copyAnswerToEditor()">Transfer to Editor</button>
         </div>
-
-        <div id="loadingStatus" class="loading-state">Running 5% Knowledge Extraction Protocol (Deconstructing book, filtering noise, extracting high-value principles)...</div>
+        <div id="loadingStatus" class="loading-state">Processing via Public Intelligence Standard...</div>
         <div id="errorBanner" class="error-banner"></div>
-        
         <div id="answerPreview" class="output-box"></div>
     </div>
-
-    <!-- PDF Manual Editor Panel -->
-    <div class="panel">
-        <div class="panel-title">Luxury Document Editor & PDF Export</div>
-        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Document Content (Editable for PDF Export):</label>
-        <textarea id="pdfContent" placeholder="Refine text for publication-grade export..."></textarea>
-        
-        <div class="btn-group">
-            <button class="btn-outline" onclick="generateLuxuryPDF()">2. Export Solo Genius PDF</button>
-        </div>
-    </div>
-</div>
-
-<!-- Hidden PDF Export Template -->
-<div id="pdf-export">
-    <div class="pdf-brand-header">
-        <span>Solo Genius Musical School &bull; 5% Knowledge Extraction Document</span>
-        <span>Confidential</span>
-    </div>
-    <div class="pdf-gold-box">
-        <div style="color: var(--gold); font-weight: bold; font-style: italic; font-size: 16px; margin-bottom: 6px;">"100% Book → 5% Essential Insight → 1% Practical Application → System Upgrade"</div>
-        <div style="color: var(--gold); font-size: 11px; letter-spacing: 1px; text-transform: uppercase;">Signal > Noise &bull; Application > Information</div>
-    </div>
-    <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
 
 <script>
-    const part1 = "gsk_6tt3ppqiuw5tVseD";
-    const part2 = "Sb8KWGdyb3FYYyS8I3bfbp53SPd7xfaWW8Dt";
-    const GROQ_API_KEY = part1 + part2;
+    const API_KEY = "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";
 
-    async function executeExtractionWorkflow() {
-        const bookInput = document.getElementById('userQuestion').value.trim();
-        const statusDiv = document.getElementById('loadingStatus');
-        const errorDiv = document.getElementById('errorBanner');
-        const outputDiv = document.getElementById('answerPreview');
-        const generateBtn = document.getElementById('generateBtn');
+    async function processRequest() {
+        const input = document.getElementById('userQuestion').value.trim();
+        const status = document.getElementById('loadingStatus');
+        const output = document.getElementById('answerPreview');
+        const err = document.getElementById('errorBanner');
 
-        errorDiv.style.display = 'none';
-        outputDiv.style.display = 'none';
+        if (!input) return;
 
-        if (!bookInput) {
-            errorDiv.innerText = "Error: Please enter a book title or content to extract.";
-            errorDiv.style.display = 'block';
-            return;
-        }
+        status.style.display = 'block';
+        err.style.display = 'none';
 
-        statusDiv.style.display = 'block';
-        generateBtn.disabled = true;
-
-        const extractionSystemPrompt = `You are my 5% Knowledge Extraction Engine.
-Your job is NOT to give a generic summary of a book.
-Your job is to extract the smallest, highest-value portion of the book/text that can meaningfully improve thinking, identity, decision-making, business, brand, learning system, and behavior.
-Follow the rule: 100% Book → 5% Essential Insight → 1% Practical Application → System Upgrade.
-
-COMMUNICATION STYLE & TONE:
-- Speak in a friendly, engaging, direct, high-end, and collaborative tone (like a trusted strategic partner talking to Boss).
-- Reply in natural, professional, sophisticated Burmese (မြန်မာဘာသာ). Do not translate English structures mechanically. Use English terminology for Strategy, Marketing, Finance, Business, Systems thinking, Technology, and Music where it improves precision.
-- Cut straight to signal, remove fluff, motivation clichés, and filler.
-
-EXTRACTION PROCESS TO FOLLOW:
-STEP 1 — UNDERSTAND THE BOOK: Identify author's thesis, central problem, framework, and core concepts in 5–10 concise points.
-STEP 2 — EXTRACT MY 5%: Select only the 5–10 highest-value insights (character, thinking, business, money, learning, craftsmanship).
-STEP 3 — EXPLAIN EACH INSIGHT: Use structure (Core Idea, Why It Matters, How It Works, Practical Example, Application to Me, Action).
-STEP 4 — CRITICAL THINKING FILTER: Classify claims (Evidence-Based, Reasonable Principle, Author's Interpretation, Speculative, Misleading).
-STEP 5 — SYSTEM EXTRACTION: Foundational principles, Operating rules, Behavior rules, Mental models.
-STEP 6 — APPLICATION TO SYSTEM: Character, Founder OS, Business, Brand, Learning, Creativity.
-STEP 7 — THE 1% ACTION: Single highest-leverage action, execution steps, and success validation.
-STEP 8 — WHAT TO IGNORE: Low-value content and claims to question.
-STEP 9 — FINAL 5% KNOWLEDGE CARD: End with an extremely compressed version containing Book Title, Core Thesis, 5 Key Insights, 5 Operating Rules, 5 Practical Actions, 3 Things to Question, 1 Principle to Remember, and 1 System Upgrade.
-
-Ensure the output is deeply structured, insightful, highly practical, and formatted cleanly.`;
+        const systemPrompt = `[PUBLIC INTELLIGENCE STANDARD - UNIVERSAL HIGH-LEVEL ANSWER SYSTEM]
+        You are a rigorous, systems-thinking, strategic AI.
+        Follow all principles: Use First Principles reasoning, distinguish between Known/Inference/Uncertain, be actionable, concise, and prioritize clear, intelligent, and honest communication.
+        Language: Use the user's language (Burmese/English).`;
 
         try {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${GROQ_API_KEY}`
-                },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
                 body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
+                    model: "gpt-4o",
                     messages: [
-                        { role: "system", content: extractionSystemPrompt },
-                        { role: "user", content: `Extract the 5% knowledge card and essential insights for: ${bookInput}` }
+                        { role: "system", content: systemPrompt },
+                        { role: "user", content: input }
                     ],
-                    temperature: 0.3,
-                    max_tokens: 4000
+                    temperature: 0.3
                 })
             });
-
-            if (!response.ok) {
-                const errData = await response.json();
-                throw new Error(errData.error?.message || `API Error: HTTP status ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (data.choices && data.choices[0].message) {
-                const answerText = data.choices[0].message.content;
-                outputDiv.innerText = answerText;
-                outputDiv.style.display = 'block';
-                document.getElementById('pdfContent').value = answerText;
-            } else {
-                throw new Error("Invalid response structure received from API.");
-            }
-        } catch (error) {
-            console.error(error);
-            errorDiv.innerText = `System Error: ${error.message}`;
-            errorDiv.style.display = 'block';
+            const data = await res.json();
+            output.innerText = data.choices[0].message.content;
+            output.style.display = 'block';
+        } catch (e) {
+            err.innerText = "System Error: " + e.message;
+            err.style.display = 'block';
         } finally {
-            statusDiv.style.display = 'none';
-            generateBtn.disabled = false;
+            status.style.display = 'none';
         }
-    }
-
-    function copyAnswerToEditor() {
-        const answerText = document.getElementById('answerPreview').innerText;
-        if (!answerText) {
-            alert('No extraction output available to transfer.');
-            return;
-        }
-        document.getElementById('pdfContent').value = answerText;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function generateLuxuryPDF() {
-        const content = document.getElementById('pdfContent').value.trim();
-        const errorDiv = document.getElementById('errorBanner');
-        
-        if (!content) {
-            errorDiv.innerText = "Error: PDF content editor is empty. Generate or paste content before exporting.";
-            errorDiv.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            return;
-        }
-
-        errorDiv.style.display = 'none';
-        const dynamicDiv = document.getElementById('dynamic-pdf-content');
-        dynamicDiv.innerText = content;
-        
-        const container = document.getElementById('pdf-export');
-        container.style.display = 'block';
-        
-        const opt = {
-            margin: 0,
-            filename: 'Solo_Genius_5Percent_Knowledge_Card.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().from(container).set(opt).save().then(() => {
-            container.style.display = 'none';
-        }).catch(err => {
-            console.error(err);
-            alert("PDF Export failed. Please check content or console.");
-            container.style.display = 'none';
-        });
     }
 </script>
 </body>
