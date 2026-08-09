@@ -2,104 +2,422 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Solo Genius AI Intelligence Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOLO GENIUS AI INTELLIGENCE PORTAL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        body { background-color: #050505; color: #d1d1d1; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        h2 { color: #d4af37; letter-spacing: 2px; text-transform: uppercase; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 30px; }
-        label { display: block; color: #d4af37; font-size: 12px; margin: 15px 0 5px 0; letter-spacing: 1px; text-transform: uppercase; }
-        textarea { width: 100%; background: #000000; color: #ffffff; border: 1px solid #2a2a2a; padding: 15px; box-sizing: border-box; font-family: inherit; line-height: 1.6; }
-        textarea:focus { outline: none; border-color: #d4af37; }
-        .btn { background: #d4af37; color: #050505; font-weight: bold; padding: 12px 20px; border: none; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .btn-outline { background: transparent; color: #d4af37; border: 1px solid #d4af37; padding: 12px 20px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .section { margin-bottom: 40px; border-bottom: 1px solid #1a1a1a; padding-bottom: 30px; }
-        
-        #pdf-export { display: none; width: 210mm; padding: 25mm 20mm; background-color: #050505; color: #e0e0e0; font-family: sans-serif; }
-        .gold-box { border-left: 4px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; line-height: 1.8; }
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #0c0f14;
+            --border-color: #2a2a2a;
+            --gold: #d4af37;
+            --gold-hover: #e6c547;
+            --text-main: #d1d1d1;
+            --text-bright: #ffffff;
+            --text-muted: #888888;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--gold);
+            letter-spacing: 3px;
+            font-size: 18px;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .system-status {
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .panel-title {
+            color: var(--gold);
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            background: #000000;
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .api-input-box {
+            height: 45px !important;
+            margin-bottom: 20px;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--gold);
+            color: var(--bg-color);
+            font-weight: bold;
+            font-size: 12px;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--gold-hover);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+        }
+
+        button:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+        }
+
+        .btn-outline:hover {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold-hover);
+        }
+
+        .output-box {
+            background: #000000;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--gold);
+            padding: 25px;
+            margin-top: 20px;
+            color: var(--text-bright);
+            font-size: 14px;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 150px;
+            display: none;
+        }
+
+        .loading-state {
+            color: var(--gold);
+            font-style: italic;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+            letter-spacing: 1px;
+        }
+
+        .error-banner {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff4444;
+            color: #ff8888;
+            padding: 12px;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        /* PDF Export Template Styling */
+        #pdf-export {
+            display: none;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 25mm 20mm;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .pdf-brand-header {
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .pdf-gold-box {
+            border-left: 4px solid var(--gold);
+            background: var(--panel-bg);
+            padding: 22px;
+            margin-bottom: 35px;
+        }
+
+        .pdf-content-body {
+            font-size: 13.5px;
+            line-height: 1.9;
+            color: var(--text-bright);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Solo Genius Intelligence Portal</h2>
-
-    <!-- 1. AI Q&A Section -->
-    <div class="section">
-        <label>Ask AI (Solo Genius Intelligence):</label>
-        <textarea id="aiQuestion" placeholder="Enter inquiry..."></textarea>
-        <button class="btn" onclick="askAI()">Generate Answer</button>
-        <label>AI Answer Output:</label>
-        <textarea id="aiAnswer" readonly style="height: 250px;"></textarea>
+    <div class="header-top">
+        <h2>Solo Genius AI Intelligence Portal</h2>
+        <div class="system-status">Engine: 5% Knowledge Extraction &bull; Protocol: Active</div>
     </div>
 
-    <!-- 2. PDF Editor Section -->
-    <div class="section">
-        <label>PDF Content Editor (Manual):</label>
-        <textarea id="pdfContent" placeholder="Enter final content to be exported as PDF..."></textarea>
-        <button class="btn-outline" onclick="generatePDF()">Export Luxury PDF</button>
+    <!-- API Configuration Panel -->
+    <div class="panel">
+        <div class="panel-title">System Configuration</div>
+        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Groq API Key:</label>
+        <input type="password" id="apiKeyInput" class="api-input-box" placeholder="gsk_..." style="width:100%; background:#000; color:#fff; border:1px solid var(--border-color); padding:12px; box-sizing:border-box;">
+        <div style="font-size: 11px; color: var(--text-muted);">The API key remains secure in your local browser session.</div>
+    </div>
+
+    <!-- 5% Knowledge Extraction Engine Panel -->
+    <div class="panel">
+        <div class="panel-title">5% Knowledge Extraction Engine (Book Analysis)</div>
+        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Insert Book Title, Core Concepts, or Text to Extract:</label>
+        <textarea id="userQuestion" placeholder="စာအုပ်အမည် (သို့မဟုတ်) စာအုပ်ထဲက အဓိက အကြောင်းအရာများကို ဤနေရာတွင် ထည့်ပါ..."></textarea>
+        
+        <div class="btn-group">
+            <button id="generateBtn" onclick="executeExtractionWorkflow()">1. Extract 5% Essential Insight</button>
+            <button class="btn-outline" onclick="copyAnswerToEditor()">Transfer to PDF Editor</button>
+        </div>
+
+        <div id="loadingStatus" class="loading-state">Running 5% Knowledge Extraction Protocol (Deconstructing book, filtering noise, extracting high-value principles)...</div>
+        <div id="errorBanner" class="error-banner"></div>
+        
+        <div id="answerPreview" class="output-box"></div>
+    </div>
+
+    <!-- PDF Manual Editor Panel -->
+    <div class="panel">
+        <div class="panel-title">Luxury Document Editor & PDF Export</div>
+        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Document Content (Editable for PDF Export):</label>
+        <textarea id="pdfContent" placeholder="Refine text for publication-grade export..."></textarea>
+        
+        <div class="btn-group">
+            <button class="btn-outline" onclick="generateLuxuryPDF()">2. Export Solo Genius PDF</button>
+        </div>
     </div>
 </div>
 
-<!-- Export Template -->
+<!-- Hidden PDF Export Template -->
 <div id="pdf-export">
-    <div style="color: #d4af37; margin-bottom: 20px; font-size: 12px; letter-spacing: 3px;">SOLO GENIUS MUSICAL SCHOOL &bull; EXCLUSIVE STANDARD</div>
-    <div class="gold-box" id="dynamic-content"></div>
+    <div class="pdf-brand-header">
+        <span>Solo Genius Musical School &bull; 5% Knowledge Extraction Document</span>
+        <span>Confidential</span>
+    </div>
+    <div class="pdf-gold-box">
+        <div style="color: var(--gold); font-weight: bold; font-style: italic; font-size: 16px; margin-bottom: 6px;">"100% Book → 5% Essential Insight → 1% Practical Application → System Upgrade"</div>
+        <div style="color: var(--gold); font-size: 11px; letter-spacing: 1px; text-transform: uppercase;">Signal > Noise &bull; Application > Information</div>
+    </div>
+    <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
 
 <script>
-    const part1 = "gsk_6tt3ppqiuw5tVseD";
-    const part2 = "Sb8KWGdyb3FYYyS8I3bfbp53SPd7xfaWW8Dt";
-    const GROQ_API_KEY = part1 + part2;
+    // Load saved API key if present in session
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedKey = localStorage.getItem('sg_groq_key');
+        if (savedKey) {
+            document.getElementById('apiKeyInput').value = savedKey;
+        }
+    });
 
-    async function askAI() {
-        const question = document.getElementById('aiQuestion').value.trim();
-        const answerBox = document.getElementById('aiAnswer');
-        
-        if (!question) {
-            alert('Please enter a question.');
+    async function executeExtractionWorkflow() {
+        const apiKey = document.getElementById('apiKeyInput').value.trim();
+        const bookInput = document.getElementById('userQuestion').value.trim();
+        const statusDiv = document.getElementById('loadingStatus');
+        const errorDiv = document.getElementById('errorBanner');
+        const outputDiv = document.getElementById('answerPreview');
+        const generateBtn = document.getElementById('generateBtn');
+
+        errorDiv.style.display = 'none';
+        outputDiv.style.display = 'none';
+
+        if (!apiKey) {
+            errorDiv.innerText = "Error: Groq API key is required in the configuration panel above.";
+            errorDiv.style.display = 'block';
             return;
         }
 
-        answerBox.value = "Processing through Solo Genius Core & 5% Hidden Truths...";
+        if (!bookInput) {
+            errorDiv.innerText = "Error: Please enter a book title or content to extract.";
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        localStorage.setItem('sg_groq_key', apiKey);
+
+        statusDiv.style.display = 'block';
+        generateBtn.disabled = true;
+
+        const extractionSystemPrompt = `You are my 5% Knowledge Extraction Engine.
+Your job is NOT to give a generic summary of a book.
+Your job is to extract the smallest, highest-value portion of the book/text that can meaningfully improve thinking, identity, decision-making, business, brand, learning system, and behavior.
+Follow the rule: 100% Book → 5% Essential Insight → 1% Practical Application → System Upgrade.
+
+COMMUNICATION STYLE & TONE:
+- Speak in a friendly, engaging, direct, high-end, and collaborative tone (like a trusted strategic partner talking to Boss).
+- Reply in natural, professional, sophisticated Burmese (မြန်မာဘာသာ). Do not translate English structures mechanically. Use English terminology for Strategy, Marketing, Finance, Business, Systems thinking, Technology, and Music where it improves precision.
+- Cut straight to signal, remove fluff, motivation clichés, and filler.
+
+EXTRACTION PROCESS TO FOLLOW:
+STEP 1 — UNDERSTAND THE BOOK: Identify author's thesis, central problem, framework, and core concepts in 5–10 concise points.
+STEP 2 — EXTRACT MY 5%: Select only the 5–10 highest-value insights (character, thinking, business, money, learning, craftsmanship).
+STEP 3 — EXPLAIN EACH INSIGHT: Use structure (Core Idea, Why It Matters, How It Works, Practical Example, Application to Me, Action).
+STEP 4 — CRITICAL THINKING FILTER: Classify claims (Evidence-Based, Reasonable Principle, Author's Interpretation, Speculative, Misleading).
+STEP 5 — SYSTEM EXTRACTION: Foundational principles, Operating rules, Behavior rules, Mental models.
+STEP 6 — APPLICATION TO SYSTEM: Character, Founder OS, Business, Brand, Learning, Creativity.
+STEP 7 — THE 1% ACTION: Single highest-leverage action, execution steps, and success validation.
+STEP 8 — WHAT TO IGNORE: Low-value content and claims to question.
+STEP 9 — FINAL 5% KNOWLEDGE CARD: End with an extremely compressed version containing Book Title, Core Thesis, 5 Key Insights, 5 Operating Rules, 5 Practical Actions, 3 Things to Question, 1 Principle to Remember, and 1 System Upgrade.
+
+Ensure the output is deeply structured, insightful, highly practical, and formatted cleanly.`;
 
         try {
-            const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${GROQ_API_KEY}` },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    messages: [{ 
-                        role: "system", 
-                        content: "You are the core intelligence of SOLO GENIUS MUSICAL SCHOOL. Your vibe is Silent & Mysterious, Direct High-End Connection, Status & Belonging, Luxury Feeling. Never use generic fluff, idle talk, or basic conversational filler. Provide deep, highly architectural, structural insights embedded with 5% Hidden Truths, technical mastery, and elite mental models. If the user asks in Burmese, reply in professional, sharp, sophisticated, and profound Burmese matching the luxury standard of Solo Genius. Cut straight to the core truth without wasting words." 
-                    }, { 
-                        role: "user", 
-                        content: question 
-                    }]
+                    messages: [
+                        { role: "system", content: extractionSystemPrompt },
+                        { role: "user", content: `Extract the 5% knowledge card and essential insights for: ${bookInput}` }
+                    ],
+                    temperature: 0.3,
+                    max_tokens: 4000
                 })
             });
-            const data = await res.json();
-            if (data.choices && data.choices[0].message) {
-                answerBox.value = data.choices[0].message.content;
-            } else {
-                answerBox.value = "Generation failed.";
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error?.message || `API Error: HTTP status ${response.status}`);
             }
-        } catch(e) { 
-            console.error(e);
-            alert("Error connecting to system."); 
-            answerBox.value = "";
+
+            const data = await response.json();
+            if (data.choices && data.choices[0].message) {
+                const answerText = data.choices[0].message.content;
+                outputDiv.innerText = answerText;
+                outputDiv.style.display = 'block';
+                document.getElementById('pdfContent').value = answerText;
+            } else {
+                throw new Error("Invalid response structure received from API.");
+            }
+        } catch (error) {
+            console.error(error);
+            errorDiv.innerText = `System Error: ${error.message}`;
+            errorDiv.style.display = 'block';
+        } finally {
+            statusDiv.style.display = 'none';
+            generateBtn.disabled = false;
         }
     }
 
-    function generatePDF() {
-        const content = document.getElementById('pdfContent').value;
-        const dynamicDiv = document.getElementById('dynamic-content');
+    function copyAnswerToEditor() {
+        const answerText = document.getElementById('answerPreview').innerText;
+        if (!answerText) {
+            alert('No extraction output available to transfer.');
+            return;
+        }
+        document.getElementById('pdfContent').value = answerText;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function generateLuxuryPDF() {
+        const content = document.getElementById('pdfContent').value.trim();
+        const errorDiv = document.getElementById('errorBanner');
+        
+        if (!content) {
+            errorDiv.innerText = "Error: PDF content editor is empty. Generate or paste content before exporting.";
+            errorDiv.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        errorDiv.style.display = 'none';
+        const dynamicDiv = document.getElementById('dynamic-pdf-content');
         dynamicDiv.innerText = content;
         
         const container = document.getElementById('pdf-export');
         container.style.display = 'block';
         
-        html2pdf().from(container).save('Solo_Genius_Masterpiece.pdf').then(() => {
+        const opt = {
+            margin: 0,
+            filename: 'Solo_Genius_5Percent_Knowledge_Card.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(container).set(opt).save().then(() => {
+            container.style.display = 'none';
+        }).catch(err => {
+            console.error(err);
+            alert("PDF Export failed. Please check content or console.");
             container.style.display = 'none';
         });
     }
