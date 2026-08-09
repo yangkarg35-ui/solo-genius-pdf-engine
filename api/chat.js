@@ -4,21 +4,18 @@ export default async function handler(req, res) {
     }
 
     const { message } = req.body;
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-        return res.status(500).json({ error: 'OpenAI API Key not configured on server.' });
-    }
+    // Vercel Environment Variable သို့မဟုတ် Hardcoded Groq API Key ကို အသုံးပြုခြင်း
+    const apiKey = process.env.GROQ_API_KEY || "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";
 
     try {
-        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                model: "gpt-4o",
+                model: "llama-3.3-70b-versatile",
                 messages: [
                     { 
                         role: "system", 
@@ -33,7 +30,7 @@ export default async function handler(req, res) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error?.message || 'OpenAI API Error');
+            throw new Error(data.error?.message || 'Groq API Error');
         }
 
         return res.status(200).json({ reply: data.choices[0].message.content });
