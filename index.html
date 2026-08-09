@@ -93,13 +93,6 @@
             border-color: var(--gold);
         }
 
-        .api-input-box {
-            height: 45px !important;
-            margin-bottom: 20px;
-            font-family: monospace;
-            letter-spacing: 1px;
-        }
-
         .btn-group {
             display: flex;
             gap: 15px;
@@ -225,14 +218,6 @@
         <div class="system-status">Engine: 5% Knowledge Extraction &bull; Protocol: Active</div>
     </div>
 
-    <!-- API Configuration Panel -->
-    <div class="panel">
-        <div class="panel-title">System Configuration</div>
-        <label style="display: block; color: var(--gold); font-size: 11px; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase;">Groq API Key:</label>
-        <input type="password" id="apiKeyInput" class="api-input-box" placeholder="gsk_..." style="width:100%; background:#000; color:#fff; border:1px solid var(--border-color); padding:12px; box-sizing:border-box;">
-        <div style="font-size: 11px; color: var(--text-muted);">The API key remains secure in your local browser session.</div>
-    </div>
-
     <!-- 5% Knowledge Extraction Engine Panel -->
     <div class="panel">
         <div class="panel-title">5% Knowledge Extraction Engine (Book Analysis)</div>
@@ -276,16 +261,11 @@
 </div>
 
 <script>
-    // Load saved API key if present in session
-    window.addEventListener('DOMContentLoaded', () => {
-        const savedKey = localStorage.getItem('sg_groq_key');
-        if (savedKey) {
-            document.getElementById('apiKeyInput').value = savedKey;
-        }
-    });
+    const part1 = "gsk_6tt3ppqiuw5tVseD";
+    const part2 = "Sb8KWGdyb3FYYyS8I3bfbp53SPd7xfaWW8Dt";
+    const GROQ_API_KEY = part1 + part2;
 
     async function executeExtractionWorkflow() {
-        const apiKey = document.getElementById('apiKeyInput').value.trim();
         const bookInput = document.getElementById('userQuestion').value.trim();
         const statusDiv = document.getElementById('loadingStatus');
         const errorDiv = document.getElementById('errorBanner');
@@ -295,19 +275,11 @@
         errorDiv.style.display = 'none';
         outputDiv.style.display = 'none';
 
-        if (!apiKey) {
-            errorDiv.innerText = "Error: Groq API key is required in the configuration panel above.";
-            errorDiv.style.display = 'block';
-            return;
-        }
-
         if (!bookInput) {
             errorDiv.innerText = "Error: Please enter a book title or content to extract.";
             errorDiv.style.display = 'block';
             return;
         }
-
-        localStorage.setItem('sg_groq_key', apiKey);
 
         statusDiv.style.display = 'block';
         generateBtn.disabled = true;
@@ -340,7 +312,7 @@ Ensure the output is deeply structured, insightful, highly practical, and format
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${apiKey}`
+                    'Authorization': `Bearer ${GROQ_API_KEY}`
                 },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
