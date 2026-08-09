@@ -70,7 +70,7 @@
 <div class="container">
     <div class="header-top">
         <h2>Solo Genius AI Intelligence Portal</h2>
-        <div class="system-status">Engine: OpenAI GPT-4o &bull; Protocol: Public Intelligence Standard</div>
+        <div class="system-status">Engine: DeepSeek &bull; Protocol: Public Intelligence Standard</div>
     </div>
 
     <!-- AI Intelligence Extraction Engine Panel -->
@@ -137,12 +137,11 @@
         COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application.`;
 
         try {
-            // Backend URL ကို ပြောင်းလဲလှမ်းခေါ်ပါပြီ
             const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    model: "gpt-4o",
+                    model: "deepseek-chat", // DeepSeek Model သို့ အပြည့်အစုံ ချိတ်ဆက်ထားသည်
                     messages: [
                         { role: "system", content: systemPrompt },
                         { role: "user", content: input }
@@ -154,7 +153,7 @@
             const data = await res.json();
             
             if (!res.ok) {
-                throw new Error(data.error?.message || "Failed to process request");
+                throw new Error(data.error?.message || data.message || "Failed to process request");
             }
 
             const answerText = data.choices[0].message.content;
