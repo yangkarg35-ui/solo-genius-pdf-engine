@@ -39,21 +39,27 @@
         button:hover { background: var(--gold-hover); }
         .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
         .btn-outline:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold-hover); }
-        .output-box { background: #000000; border: 1px solid var(--border-color); border-left: 3px solid var(--gold); padding: 25px; margin-top: 20px; color: var(--text-bright); font-size: 14px; line-height: 1.8; white-space: pre-wrap; display: none; }
+        
+        /* Answer Box ကို အမြဲပေါ်နေအောင် ပြင်ထားပါတယ် */
+        .output-box { 
+            background: #000000; 
+            border: 1px solid var(--border-color); 
+            border-left: 3px solid var(--gold); 
+            padding: 25px; 
+            margin-top: 20px; 
+            color: var(--text-bright); 
+            font-size: 14px; 
+            line-height: 1.8; 
+            white-space: pre-wrap; 
+            display: block; 
+            min-height: 120px; 
+        }
+        
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
         /* PDF Export Template Styling */
-        #pdf-export {
-            display: none;
-            width: 210mm;
-            min-height: 297mm;
-            padding: 25mm 20mm;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            box-sizing: border-box;
-        }
+        #pdf-export { display: none; width: 210mm; min-height: 297mm; padding: 25mm 20mm; background-color: var(--bg-color); color: var(--text-main); box-sizing: border-box; }
         .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; justify-content: space-between; }
         .pdf-gold-box { border-left: 4px solid var(--gold); background: var(--panel-bg); padding: 22px; margin-bottom: 35px; }
         .pdf-content-body { font-size: 13.5px; line-height: 1.9; color: var(--text-bright); white-space: pre-wrap; word-wrap: break-word; }
@@ -79,7 +85,7 @@
 
         <div id="loadingStatus" class="loading-state">Processing via Public Intelligence Standard...</div>
         <div id="errorBanner" class="error-banner"></div>
-        <div id="answerPreview" class="output-box"></div>
+        <div id="answerPreview" class="output-box" style="color: var(--text-muted);">AI ရဲ့ ခွဲခြမ်းစိတ်ဖြာချက်ရလဒ် ဤနေရာတွင် ပေါ်လာပါမည်...</div>
     </div>
 
     <!-- Luxury Document Editor & PDF Export Panel -->
@@ -107,8 +113,6 @@
 </div>
 
 <script>
-    const API_KEY = "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";
-
     async function processRequest() {
         const input = document.getElementById('userQuestion').value.trim();
         const status = document.getElementById('loadingStatus');
@@ -124,41 +128,19 @@
 
         status.style.display = 'block';
         err.style.display = 'none';
-        output.style.display = 'none';
+        output.innerText = "Processing...";
+        output.style.color = "var(--text-muted)";
         btn.disabled = true;
 
-        const systemPrompt = `[PUBLIC INTELLIGENCE STANDARD - UNIVERSAL HIGH-LEVEL ANSWER SYSTEM]
-You are an advanced public-facing AI assistant. Your purpose is to provide the highest-quality reasoning and communication possible for any member of the public.
-CORE IDENTITY: You are a rigorous thinker, systems thinker, strategic advisor, clear educator, practical problem solver, and intellectually honest assistant.
-OPERATIONAL PRINCIPLES:
-1. Useful Truth over Pleasant Agreement.
-2. Respectfully challenge weak assumptions.
-3. Improve framing before answering.
-4. Distinguish clearly between KNOWN facts, INFERENCE, UNCERTAIN evidence, and SPECULATION.
-5. Never fabricate statistics, studies, or sources.
-6. Use Second-Order Thinking for important decisions.
-REASONING PROTOCOL:
-- UNDERSTAND: Identify the underlying decision or problem.
-- DECONSTRUCT: Break down into components (Facts, Assumptions, Constraints).
-- FIND THE CORE: Focus on high-leverage variables.
-- REASON FROM FIRST PRINCIPLES: Explain the mechanism, not just the result.
-- THINK IN SYSTEMS: Consider feedback loops, incentives, and second-order effects.
-- MAKE IT ACTIONABLE: Convert insights into practical steps.
-COMMUNICATION STYLE:
-- Be calm, precise, intelligent, direct, and modern.
-- Avoid excessive emojis, empty praise, corporate jargon, and performance-based language.
-- Start with substance. 
-- Use the user's natural language (Burmese/English).
-- When teaching, use the pattern: Concept -> Mechanism -> Example -> Application.
-FINAL GOAL: Do not aim to sound intelligent. Aim to make the user's thinking better by providing clearer understanding, better mental models, or practical next steps.`;
+        const systemPrompt = `[PUBLIC INTELLIGENCE STANDARD] You are a rigorous thinker, strategic advisor, and intellectually honest assistant. 
+        OPERATIONAL PRINCIPLES: 1. Useful Truth over Pleasant Agreement. 2. Distinguish clearly between facts and speculation. 3. Use First Principles Reasoning. 
+        COMMUNICATION STYLE: Be precise, direct, and modern. Use Burmese/English seamlessly. Focus on high-leverage application.`;
 
         try {
-            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+            // Backend URL ကို ပြောင်းလဲလှမ်းခေါ်ပါပြီ
+            const res = await fetch('/api/chat', {
                 method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json', 
-                    'Authorization': `Bearer ${API_KEY}` 
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     model: "gpt-4o",
                     messages: [
@@ -169,20 +151,21 @@ FINAL GOAL: Do not aim to sound intelligent. Aim to make the user's thinking bet
                 })
             });
 
+            const data = await res.json();
+            
             if (!res.ok) {
-                const errData = await res.json();
-                throw new Error(errData.error?.message || `HTTP error! status: ${res.status}`);
+                throw new Error(data.error?.message || "Failed to process request");
             }
 
-            const data = await res.json();
             const answerText = data.choices[0].message.content;
             
             output.innerText = answerText;
-            output.style.display = 'block';
+            output.style.color = "var(--text-bright)";
             document.getElementById('pdfContent').value = answerText;
         } catch (e) {
-            err.innerText = "API Connection Error: " + e.message + " (Note: Browsers restrict direct OpenAI API calls due to CORS. Consider deploying a backend proxy if needed.)";
+            err.innerText = "System Error: " + e.message;
             err.style.display = 'block';
+            output.innerText = "Execution failed.";
         } finally {
             status.style.display = 'none';
             btn.disabled = false;
@@ -191,7 +174,7 @@ FINAL GOAL: Do not aim to sound intelligent. Aim to make the user's thinking bet
 
     function copyAnswerToEditor() {
         const answerText = document.getElementById('answerPreview').innerText;
-        if (!answerText) {
+        if (!answerText || answerText === "AI ရဲ့ ခွဲခြမ်းစိတ်ဖြာချက်ရလဒ် ဤနေရာတွင် ပေါ်လာပါမည်..." || answerText === "Processing..." || answerText === "Execution failed.") {
             alert('No extraction output available to transfer.');
             return;
         }
