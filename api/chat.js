@@ -4,8 +4,6 @@ export default async function handler(req, res) {
     }
 
     const { message } = req.body;
-    
-    // OpenRouter API Key
     const apiKey = process.env.OPENROUTER_API_KEY || "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";
 
     try {
@@ -18,7 +16,7 @@ export default async function handler(req, res) {
                 'X-Title': 'Solo Genius Document Studio'
             },
             body: JSON.stringify({
-                model: "anthropic/claude-3.5-sonnet", 
+                model: "openrouter/auto", // ရနိုင်သမျှ AI Model ထဲမှ အကောင်းဆုံးတစ်ခုက အလိုအလျောက် ဝင်ဖြေပေးမည်
                 messages: [
                     { 
                         role: "system", 
