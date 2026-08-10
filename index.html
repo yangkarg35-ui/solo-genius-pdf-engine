@@ -6,7 +6,6 @@
     <title>SOLO GENIUS MUSICAL SCHOOL &bull; AI INTELLIGENCE PORTAL</title>
     <!-- Pyidaungsu Font -->
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --bg-color: #050505;
@@ -61,17 +60,28 @@
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        /* PDF Export Template Styling - Fixed for html2canvas rendering */
-        #pdf-export { 
-            position: absolute;
-            left: -9999px;
-            top: 0;
-            width: 794px; /* A4 width in pixels at 96 DPI */
-            padding: 40px; 
-            background-color: #050505; 
-            color: #d1d1d1; 
-            box-sizing: border-box; 
-            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
+        /* Hidden PDF Export Template */
+        #pdf-export { display: none; }
+
+        /* Print Media Styles for Native Browser-to-PDF Conversion */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #pdf-export, #pdf-export * {
+                visibility: visible;
+            }
+            #pdf-export {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background-color: #050505 !important;
+                color: #d1d1d1 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
         }
         
         .pdf-brand-header { 
@@ -140,6 +150,7 @@
             background: #0c0f14; 
             border: 1px solid #2a2a2a; 
             padding: 20px; 
+            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
         }
     </style>
 </head>
@@ -175,7 +186,7 @@
     </div>
 </div>
 
-<!-- Hidden PDF Export Template -->
+<!-- PDF Export Template (Rendered cleanly during print) -->
 <div id="pdf-export">
     <div class="pdf-brand-header">
         <div class="pdf-logo-area">
@@ -269,38 +280,10 @@
         }
 
         err.style.display = 'none';
-        document.getElementById('dynamic-pdf-contentinnerText' in document.getElementById('dynamic-pdf-content') ? 'innerText' : 'textContent') = content;
         document.getElementById('dynamic-pdf-content').innerText = content;
         
-        const container = document.getElementById('pdf-export');
-
-        // Temporarily position element properly in layout flow for correct html2canvas measurement
-        container.style.position = 'relative';
-        container.style.left = '0';
-
-        const opt = {
-            margin: 0,
-            filename: 'Solo_Genius_Music_Fundamentals.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 2, 
-                useCORS: true, 
-                letterRendering: true,
-                backgroundColor: '#050505',
-                windowWidth: 794
-            },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().from(container).set(opt).save().then(() => {
-            container.style.position = 'absolute';
-            container.style.left = '-9999px';
-        }).catch(e => {
-            console.error(e);
-            alert("PDF Export failed.");
-            container.style.position = 'absolute';
-            container.style.left = '-9999px';
-        });
+        // Triggers browser native high-fidelity print dialog (Select "Save as PDF")
+        window.print();
     }
 </script>
 </body>
