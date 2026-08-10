@@ -24,7 +24,8 @@ export default async function handler(req, res) {
                     },
                     { role: "user", content: message }
                 ],
-                temperature: 0.2
+                temperature: 0.2,
+                max_tokens: 1500
             })
         });
 
