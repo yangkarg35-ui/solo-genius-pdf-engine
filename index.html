@@ -20,7 +20,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Pyidaungsu", "Myanmar Unicode", "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 40px 20px;
             box-sizing: border-box;
@@ -57,10 +57,20 @@
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        #pdf-export { display: none; width: 210mm; min-height: 297mm; padding: 25mm 20mm; background-color: var(--bg-color); color: var(--text-main); box-sizing: border-box; }
-        .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; justify-content: space-between; }
-        .pdf-gold-box { border-left: 4px solid var(--gold); background: var(--panel-bg); padding: 22px; margin-bottom: 35px; }
-        .pdf-content-body { font-size: 13.5px; line-height: 1.9; color: var(--text-bright); white-space: pre-wrap; word-wrap: break-word; }
+        /* PDF Export Template Styling with Permanent Brand Card */
+        #pdf-export { 
+            display: none; 
+            width: 210mm; 
+            padding: 20mm; 
+            background-color: #050505 !important; 
+            color: #d1d1d1 !important; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, "Pyidaungsu", "Myanmar Unicode", sans-serif;
+        }
+        .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #2a2a2a; padding-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .pdf-gold-box { border-left: 4px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .pdf-brand-card-img { width: 220px; height: auto; border: 1px solid #d4af37; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .pdf-content-body { font-size: 13px; line-height: 1.8; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; background: #0c0f14; border: 1px solid #2a2a2a; padding: 25px; }
     </style>
 </head>
 <body>
@@ -71,7 +81,6 @@
         <div class="system-status">Engine: Groq (Llama 3.3) &bull; Protocol: Public Intelligence Standard</div>
     </div>
 
-    <!-- AI Intelligence Extraction Engine Panel -->
     <div class="panel">
         <div class="panel-title">Intelligence & Extraction Engine</div>
         <textarea id="userQuestion" placeholder="မေးခွန်း သို့မဟုတ် ခွဲခြမ်းစိတ်ဖြာရန် အချက်အလက်များ ထည့်သွင်းပါ..."></textarea>
@@ -86,7 +95,6 @@
         <div id="answerPreview" class="output-box" style="color: var(--text-muted);">AI ရဲ့ ခွဲခြမ်းစိတ်ဖြာချက်ရလဒ် ဤနေရာတွင် ပေါ်လာပါမည်...</div>
     </div>
 
-    <!-- Luxury Document Editor & PDF Export Panel -->
     <div class="panel">
         <div class="panel-title">Luxury Document Editor & PDF Export</div>
         <textarea id="pdfContent" placeholder="Refine text for publication-grade export..."></textarea>
@@ -97,15 +105,19 @@
     </div>
 </div>
 
-<!-- Hidden PDF Export Template -->
+<!-- Hidden PDF Export Template with Permanent Founder ID Card Image -->
 <div id="pdf-export">
     <div class="pdf-brand-header">
         <span>Solo Genius Musical School &bull; Intelligence Document</span>
-        <span>Confidential</span>
+        <span>Founder: Yang Karg (SG-F-0001)</span>
     </div>
     <div class="pdf-gold-box">
-        <div style="color: var(--gold); font-weight: bold; font-style: italic; font-size: 16px; margin-bottom: 6px;">"Useful Truth over Pleasant Agreement &bull; First Principles Reasoning"</div>
-        <div style="color: var(--gold); font-size: 11px; letter-spacing: 1px; text-transform: uppercase;">Signal > Noise &bull; Application > Information</div>
+        <div>
+            <div style="color: #d4af37; font-weight: bold; font-style: italic; font-size: 16px; margin-bottom: 8px;">"Useful Truth over Pleasant Agreement &bull; First Principles Reasoning"</div>
+            <div style="color: #d4af37; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Signal > Noise &bull; Application > Information &bull; Luxury Private Standard</div>
+        </div>
+        <!-- Permanent Founder ID Card Image Embedded Here -->
+        <img src="input_file_3.png" alt="Solo Genius Founder ID Card" class="pdf-brand-card-img" crossorigin="anonymous">
     </div>
     <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
@@ -138,10 +150,7 @@
             });
 
             const data = await res.json();
-            
-            if (!res.ok) {
-                throw new Error(data.error || "Failed to process request");
-            }
+            if (!res.ok) throw new Error(data.error || "Failed to process request");
 
             output.innerText = data.reply;
             output.style.color = "var(--text-bright)";
@@ -158,7 +167,7 @@
 
     function copyAnswerToEditor() {
         const answerText = document.getElementById('answerPreview').innerText;
-        if (!answerText || answerText === "AI ရဲ့ ခွဲခြမ်းစိတ်ဖြာချက်ရလဒ် ဤနေရာတွင် ပေါ်လာပါမည်..." || answerText === "Processing..." || answerText === "Execution failed.") {
+        if (!answerText || answerText.includes("ဤနေရာတွင် ပေါ်လာပါမည်") || answerText === "Processing...") {
             alert('No extraction output available to transfer.');
             return;
         }
@@ -178,16 +187,15 @@
         }
 
         err.style.display = 'none';
-        const dynamicDiv = document.getElementById('dynamic-pdf-content');
-        dynamicDiv.innerText = content;
+        document.getElementById('dynamic-pdf-content').innerText = content;
         
         const container = document.getElementById('pdf-export');
         container.style.display = 'block';
         
         const opt = {
-            margin: 0,
+            margin: 10,
             filename: 'Solo_Genius_Intelligence_Document.pdf',
-            image: { type: 'jpeg', quality: 1 },
+            image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
@@ -196,7 +204,7 @@
             container.style.display = 'none';
         }).catch(err => {
             console.error(err);
-            alert("PDF Export failed. Please check content or console.");
+            alert("PDF Export failed.");
             container.style.display = 'none';
         });
     }
