@@ -32,6 +32,31 @@
             overflow: hidden;
         }
 
+        /* Mobile Header Bar */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--panel-bg);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .mobile-menu-btn {
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
         /* Sidebar Architecture */
         .sidebar {
             width: 260px;
@@ -41,6 +66,8 @@
             flex-direction: column;
             padding: 20px;
             flex-shrink: 0;
+            z-index: 999;
+            transition: transform 0.3s ease;
         }
 
         .sidebar-brand {
@@ -287,23 +314,62 @@
             color: var(--text-muted);
             letter-spacing: 1px;
         }
+
+        /* Responsive Media Queries for Mobile */
+        @media (max-width: 768px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            .mobile-header { display: flex; }
+            .sidebar {
+                position: fixed;
+                top: 60px;
+                left: -260px;
+                height: calc(100vh - 60px);
+                transition: transform 0.3s ease;
+            }
+            .sidebar.mobile-open {
+                transform: translateX(260px);
+            }
+            .main-content {
+                padding: 80px 15px 30px 15px;
+                overflow-y: visible;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .template-grid {
+                grid-template-columns: 1fr;
+            }
+            .pdf-meta-box {
+                grid-template-columns: 1fr;
+            }
+            .pdf-gold-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
 
+    <!-- Mobile Top Navigation Header -->
+    <div class="mobile-header">
+        <div style="font-size: 11px; letter-spacing: 2px; color: var(--gold); font-weight: bold;">SOLO GENIUS &bull; STUDIO</div>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">MENU</button>
+    </div>
+
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebarNav">
         <div class="sidebar-brand">Solo Genius &bull; Studio</div>
         <ul class="sidebar-menu">
-            <li><a class="create-btn" onclick="switchView('dashboard')">+ Create Document</a></li>
-            <li id="menu-dashboard" class="active"><a onclick="switchView('dashboard')">Dashboard</a></li>
-            <li id="menu-templates"><a onclick="switchView('templates')">Templates</a></li>
-            <li id="menu-documents"><a onclick="switchView('documents')">My Documents</a></li>
-            <li id="menu-drafts"><a onclick="switchView('drafts')">Drafts</a></li>
-            <li id="menu-verified"><a onclick="switchView('verified')">Verified Docs</a></li>
-            <li id="menu-assistant"><a onclick="switchView('assistant')">AI Assistant</a></li>
-            <li id="menu-settings"><a onclick="switchView('settings')">Brand Settings</a></li>
-            <li id="menu-profile"><a onclick="switchView('profile')">Profile</a></li>
+            <li><a class="create-btn" onclick="switchView('dashboard'); closeMobileMenu();">+ Create Document</a></li>
+            <li id="menu-dashboard" class="active"><a onclick="switchView('dashboard'); closeMobileMenu();">Dashboard</a></li>
+            <li id="menu-templates"><a onclick="switchView('templates'); closeMobileMenu();">Templates</a></li>
+            <li id="menu-documents"><a onclick="switchView('documents'); closeMobileMenu();">My Documents</a></li>
+            <li id="menu-drafts"><a onclick="switchView('drafts'); closeMobileMenu();">Drafts</a></li>
+            <li id="menu-verified"><a onclick="switchView('verified'); closeMobileMenu();">Verified Docs</a></li>
+            <li id="menu-assistant"><a onclick="switchView('assistant'); closeMobileMenu();">AI Assistant</a></li>
+            <li id="menu-settings"><a onclick="switchView('settings'); closeMobileMenu();">Brand Settings</a></li>
+            <li id="menu-profile"><a onclick="switchView('profile'); closeMobileMenu();">Profile</a></li>
         </ul>
     </div>
 
@@ -531,29 +597,35 @@
     </div>
 
 <script>
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+        const sidebar = document.getElementById('sidebarNav');
+        sidebar.classList.toggle('mobile-open');
+    }
+
+    function closeMobileMenu() {
+        const sidebar = document.getElementById('sidebarNav');
+        sidebar.classList.remove('mobile-open');
+    }
+
     // View Switcher Architecture
     function switchView(viewName) {
-        // Hide all views
         const views = document.querySelectorAll('.view-section');
         views.forEach(v => v.classList.remove('active'));
 
-        // Remove active class from menu items
         const menuItems = document.querySelectorAll('.sidebar-menu li');
         menuItems.forEach(li => li.classList.remove('active'));
 
-        // Show target view
         const targetView = document.getElementById('view-' + viewName);
         if (targetView) {
             targetView.classList.add('active');
         }
 
-        // Highlight menu item
         const targetMenu = document.getElementById('menu-' + viewName);
         if (targetMenu) {
             targetMenu.classList.add('active');
         }
 
-        // Update Header Title
         const titles = {
             'dashboard': 'Document Intelligence Studio',
             'templates': 'Official Document Templates',
@@ -567,7 +639,6 @@
         document.getElementById('viewTitle').innerText = titles[viewName] || 'Document Intelligence Studio';
     }
 
-    // Select template and auto-switch back to dashboard with selected type
     function selectTemplate(templateName) {
         document.getElementById('docType').value = templateName;
         switchView('dashboard');
