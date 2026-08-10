@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOLO GENIUS MUSICAL SCHOOL &bull; AI INTELLIGENCE PORTAL</title>
+    <!-- Pyidaungsu Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
@@ -20,7 +22,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: "Pyidaungsu", "Myanmar Unicode", "Padauk", "Thanlwin", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: "Pyidaungsu", "Myanmar Unicode", "Padauk", sans-serif;
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
             margin: 0;
@@ -59,21 +61,50 @@
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        /* PDF Export Template Styling matching the Exact Reference Image */
+        /* PDF Export Template Styling - Fixed for html2canvas rendering */
         #pdf-export { 
-            display: none; 
-            width: 210mm; 
-            padding: 15mm; 
-            background-color: #050505 !important; 
-            color: #d1d1d1 !important; 
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 794px; /* A4 width in pixels at 96 DPI */
+            padding: 40px; 
+            background-color: #050505; 
+            color: #d1d1d1; 
             box-sizing: border-box; 
-            font-family: "Pyidaungsu", "Myanmar Unicode", "Padauk", sans-serif !important;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
+            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
         }
-        .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         
-        /* Exact Card Box Layout as requested */
+        .pdf-brand-header { 
+            font-size: 11px; 
+            letter-spacing: 3px; 
+            color: #d4af37; 
+            text-transform: uppercase; 
+            margin-bottom: 20px; 
+            border-bottom: 1px solid #2a2a2a; 
+            padding-bottom: 12px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .pdf-logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .pdf-logo-icon {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: #d4af37;
+            background: #000000;
+        }
+        
         .pdf-gold-box { 
             border: 1px solid #d4af37; 
             background: #0c0f14; 
@@ -94,14 +125,22 @@
             padding: 10px;
             box-sizing: border-box;
             flex-shrink: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
         }
         .pdf-founder-info {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        .pdf-content-body { font-size: 12px; line-height: 1.9; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; background: #0c0f14; border: 1px solid #2a2a2a; padding: 20px; }
+        .pdf-content-body { 
+            font-size: 13px; 
+            line-height: 1.8; 
+            color: #ffffff; 
+            white-space: pre-wrap; 
+            word-wrap: break-word; 
+            background: #0c0f14; 
+            border: 1px solid #2a2a2a; 
+            padding: 20px; 
+        }
     </style>
 </head>
 <body>
@@ -136,14 +175,16 @@
     </div>
 </div>
 
-<!-- Hidden PDF Export Template with Exact Image Layout -->
+<!-- Hidden PDF Export Template -->
 <div id="pdf-export">
     <div class="pdf-brand-header">
-        <span>Solo Genius Musical School &bull; Intelligence Document</span>
+        <div class="pdf-logo-area">
+            <div class="pdf-logo-icon">SG</div>
+            <span style="font-weight: bold; letter-spacing: 2px; color: #ffffff;">SOLO GENIUS MUSICAL SCHOOL</span>
+        </div>
         <span>Page 1 of 1</span>
     </div>
     
-    <!-- Founder Card Block matched with reference image -->
     <div class="pdf-gold-box">
         <div class="pdf-founder-card-mock">
             <div style="font-size: 8px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
@@ -228,25 +269,37 @@
         }
 
         err.style.display = 'none';
+        document.getElementById('dynamic-pdf-contentinnerText' in document.getElementById('dynamic-pdf-content') ? 'innerText' : 'textContent') = content;
         document.getElementById('dynamic-pdf-content').innerText = content;
         
         const container = document.getElementById('pdf-export');
-        container.style.display = 'block';
-        
+
+        // Temporarily position element properly in layout flow for correct html2canvas measurement
+        container.style.position = 'relative';
+        container.style.left = '0';
+
         const opt = {
-            margin: 10,
+            margin: 0,
             filename: 'Solo_Genius_Music_Fundamentals.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
+            html2canvas: { 
+                scale: 2, 
+                useCORS: true, 
+                letterRendering: true,
+                backgroundColor: '#050505',
+                windowWidth: 794
+            },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
         html2pdf().from(container).set(opt).save().then(() => {
-            container.style.display = 'none';
-        }).catch(err => {
-            console.error(err);
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+        }).catch(e => {
+            console.error(e);
             alert("PDF Export failed.");
-            container.style.display = 'none';
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
         });
     }
 </script>
