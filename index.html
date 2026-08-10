@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLO GENIUS MUSICAL SCHOOL &bull; AI INTELLIGENCE PORTAL</title>
+    <title>SOLO GENIUS &bull; DOCUMENT STUDIO</title>
     <!-- Pyidaungsu Font -->
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -18,6 +18,8 @@
             --text-muted: #888888;
         }
 
+        * { box-sizing: border-box; }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -25,65 +27,167 @@
             text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
             margin: 0;
-            padding: 40px 20px;
-            box-sizing: border-box;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        .container { max-width: 950px; margin: 0 auto; }
+        /* Sidebar Architecture */
+        .sidebar {
+            width: 260px;
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand {
+            font-size: 13px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu li a {
+            display: block;
+            padding: 10px 14px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-menu li.active a, .sidebar-menu li a:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .sidebar-menu .create-btn {
+            background: var(--gold);
+            color: var(--bg-color);
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .sidebar-menu .create-btn:hover {
+            background: var(--gold-hover);
+            color: var(--bg-color);
+        }
+
+        /* Main Workspace */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
         .header-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px; }
         h2 { color: var(--gold); letter-spacing: 3px; font-size: 16px; text-transform: uppercase; margin: 0; }
         .system-status { font-size: 11px; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
+
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .panel-title { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-        textarea { width: 100%; height: 180px; background: #000000; color: var(--text-bright); border: 1px solid var(--border-color); padding: 15px; box-sizing: border-box; font-family: inherit; font-size: 14px; line-height: 1.8; resize: vertical; }
-        textarea:focus { outline: none; border-color: var(--gold); }
-        .btn-group { display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
+        .panel-title { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background: #000000;
+            color: var(--text-bright);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 13px;
+        }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
+        textarea { height: 140px; resize: vertical; line-height: 1.6; }
+
+        .btn-group { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
         button { background: var(--gold); color: var(--bg-color); font-weight: bold; font-size: 12px; padding: 12px 24px; border: none; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s ease; }
         button:hover { background: var(--gold-hover); }
         .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
         .btn-outline:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold-hover); }
-        
-        .output-box { 
-            background: #000000; 
-            border: 1px solid var(--border-color); 
-            border-left: 3px solid var(--gold); 
-            padding: 25px; 
-            margin-top: 20px; 
-            color: var(--text-bright); 
-            font-size: 14px; 
-            line-height: 1.8; 
-            white-space: pre-wrap; 
-            display: block; 
-            min-height: 120px; 
-        }
-        
+
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        /* Hidden PDF Export Template */
+        /* PDF Export / Live A4 Preview Template */
         #pdf-export { display: none; }
 
-        /* Print Media Styles for Native Browser-to-PDF Conversion */
         @media print {
-            body * {
-                visibility: hidden;
-            }
-            #pdf-export, #pdf-export * {
-                visibility: visible;
-            }
+            body * { visibility: hidden; }
+            #pdf-export, #pdf-export * { visibility: visible; }
             #pdf-export {
                 display: block !important;
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: 100%;
+                width: 100vw;
+                min-height: 100vh;
                 background-color: #050505 !important;
                 color: #d1d1d1 !important;
+                padding: 15mm;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
         }
-        
+
+        .pdf-page-container {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 15mm;
+            background-color: #050505;
+            color: #d1d1d1;
+            box-sizing: border-box;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+        }
+
         .pdf-brand-header { 
             font-size: 11px; 
             letter-spacing: 3px; 
@@ -97,192 +201,273 @@
             align-items: center; 
         }
 
-        .pdf-logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .pdf-logo-area { display: flex; align-items: center; gap: 12px; }
         .pdf-logo-icon {
-            width: 28px;
-            height: 28px;
-            border: 2px solid #d4af37;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 12px;
-            color: #d4af37;
-            background: #000000;
+            width: 28px; height: 28px; border: 2px solid #d4af37;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 12px; color: #d4af37; background: #000000;
         }
         
         .pdf-gold-box { 
-            border: 1px solid #d4af37; 
-            background: #0c0f14; 
-            padding: 20px; 
-            margin-bottom: 20px; 
-            display: flex; 
-            align-items: center; 
-            gap: 25px; 
+            border: 1px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; 
+            display: flex; align-items: center; gap: 25px; 
         }
         .pdf-founder-card-mock {
-            width: 140px;
-            height: 200px;
-            background: #000000;
-            border: 1px solid #d4af37;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 10px;
-            box-sizing: border-box;
-            flex-shrink: 0;
+            width: 140px; height: 200px; background: #000000; border: 1px solid #d4af37;
+            display: flex; flex-direction: column; justify-content: space-between; padding: 10px; box-sizing: border-box; flex-shrink: 0;
         }
-        .pdf-founder-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .pdf-founder-info { display: flex; flex-direction: column; justify-content: center; }
+
+        .pdf-meta-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            background: #0c0f14;
+            border: 1px solid #2a2a2a;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 11px;
         }
+        .pdf-meta-item span { display: block; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+        .pdf-meta-item strong { color: var(--text-bright); }
+
         .pdf-content-body { 
-            font-size: 13px; 
-            line-height: 1.8; 
-            color: #ffffff; 
-            white-space: pre-wrap; 
-            word-wrap: break-word; 
-            background: #0c0f14; 
-            border: 1px solid #2a2a2a; 
-            padding: 20px; 
-            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
+            font-size: 13px; line-height: 1.8; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; 
+            background: #0c0f14; border: 1px solid #2a2a2a; padding: 20px; 
+        }
+
+        .pdf-footer {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 15px;
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header-top">
-        <h2>Solo Genius Musical School</h2>
-        <div class="system-status">Engine: Groq (Llama 3.3) &bull; Protocol: Luxury Private Standard</div>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-brand">Solo Genius &bull; Studio</div>
+        <ul class="sidebar-menu">
+            <li><a href="#" class="create-btn">+ Create Document</a></li>
+            <li class="active"><a href="#">Dashboard</a></li>
+            <li><a href="#">Templates</a></li>
+            <li><a href="#">My Documents</a></li>
+            <li><a href="#">Drafts</a></li>
+            <li><a href="#">Verified Docs</a></li>
+            <li><a href="#">AI Assistant</a></li>
+            <li><a href="#">Brand Settings</a></li>
+            <li><a href="#">Profile</a></li>
+        </ul>
     </div>
 
-    <div class="panel">
-        <div class="panel-title">Intelligence & Extraction Engine</div>
-        <textarea id="userQuestion" placeholder="မေးခွန်း သို့မဟုတ် ခွဲခြမ်းစိတ်ဖြာရန် အချက်အလက်များ ထည့်သွင်းပါ..."></textarea>
-        
-        <div class="btn-group">
-            <button id="generateBtn" onclick="processRequest()">Run Intelligence Protocol</button>
-            <button class="btn-outline" onclick="copyAnswerToEditor()">Transfer to Editor</button>
+    <!-- Main Content Workspace -->
+    <div class="main-content">
+        <div class="header-top">
+            <h2>Document Intelligence Studio</h2>
+            <div class="system-status">Engine: Groq (Llama 3.3) &bull; Official Protocol</div>
         </div>
 
-        <div id="loadingStatus" class="loading-state">Processing via Groq Llama 3.3...</div>
-        <div id="errorBanner" class="error-banner"></div>
-        <div id="answerPreview" class="output-box" style="color: var(--text-muted);">AI ရဲ့ ခွဲခြမ်းစိတ်ဖြာချက်ရလဒ် ဤနေရာတွင် ပေါ်လာပါမည်...</div>
-    </div>
-
-    <div class="panel">
-        <div class="panel-title">Luxury Document Editor & PDF Export</div>
-        <textarea id="pdfContent" placeholder="Refine text for publication-grade export..."></textarea>
-        
-        <div class="btn-group">
-            <button class="btn-outline" onclick="generateLuxuryPDF()">Export Solo Genius PDF</button>
-        </div>
-    </div>
-</div>
-
-<!-- PDF Export Template (Rendered cleanly during print) -->
-<div id="pdf-export">
-    <div class="pdf-brand-header">
-        <div class="pdf-logo-area">
-            <div class="pdf-logo-icon">SG</div>
-            <span style="font-weight: bold; letter-spacing: 2px; color: #ffffff;">SOLO GENIUS MUSICAL SCHOOL</span>
-        </div>
-        <span>Page 1 of 1</span>
-    </div>
-    
-    <div class="pdf-gold-box">
-        <div class="pdf-founder-card-mock">
-            <div style="font-size: 8px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
-            <div style="text-align: center;">
-                <div style="font-size: 10px; color: #ffffff; font-weight: bold; letter-spacing: 1px;">YANG KARG</div>
-                <div style="font-size: 7px; color: #888888;">SG-F-0001</div>
+        <div class="panel">
+            <div class="panel-title">01 — Select Template & Student Identity</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Document Type (Template)</label>
+                    <select id="docType">
+                        <option value="Progress Report">Progress Report</option>
+                        <option value="Learning Report">Learning Report</option>
+                        <option value="Practice Report">Practice Report</option>
+                        <option value="Project Report">Project Report</option>
+                        <option value="Assessment">Assessment</option>
+                        <option value="Certificate">Certificate</option>
+                        <option value="Portfolio">Portfolio</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Student Name</label>
+                    <input type="text" id="studentName" value="Alex Morgan">
+                </div>
+                <div class="form-group">
+                    <label>Student ID</label>
+                    <input type="text" id="studentId" value="SG-STU-2026-008">
+                </div>
+                <div class="form-group">
+                    <label>Program / Level</label>
+                    <input type="text" id="studentProgram" value="Advanced Guitar Architecture &bull; Level 3">
+                </div>
+                <div class="form-group">
+                    <label>Instructor</label>
+                    <input type="text" id="instructorName" value="Yang Karg (YMK)">
+                </div>
+                <div class="form-group">
+                    <label>Document ID (Auto)</label>
+                    <input type="text" id="docUniqueId" value="SG-2026-000184" readonly style="color: var(--gold);">
+                </div>
             </div>
-            <div style="font-size: 6px; color: #555555; text-align: right;">SECURE ID</div>
         </div>
-        <div class="pdf-founder-info">
-            <div style="color: #d4af37; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px;">YANG KARG</div>
-            <div style="color: #888888; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Founder & Curriculum Architect</div>
-            <div style="color: #d1d1d1; font-style: italic; font-size: 12px; line-height: 1.6;">"Music is a vehicle for a greater identity. Not just a music school, we build creative thinkers."</div>
+
+        <div class="panel">
+            <div class="panel-title">02 — Smart Form & AI Document Assistant</div>
+            <div class="form-group">
+                <label>Rough Notes / Learning Evidence (Input)</label>
+                <textarea id="roughNotes" placeholder="ဥပမာ - ဒီအပတ် C major scale practice လုပ်တယ်။ timing နည်းနည်းမတည်ငြိမ်သေးဘူး။ chord changes ပိုကောင်းလာတယ်။"></textarea>
+            </div>
+            
+            <div class="btn-group">
+                <button onclick="processAIIntelligence()">AI &rarr; Structure &rarr; Refine Document</button>
+            </div>
+
+            <div id="loadingStatus" class="loading-state">Processing via Groq Llama 3.3...</div>
+            <div id="errorBanner" class="error-banner"></div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">03 — Live A4 Preview & Brand Document Publishing</div>
+            <div class="form-group">
+                <label>Refined Official Content Editor</label>
+                <textarea id="refinedContent" style="height: 180px;" placeholder="AI refined official content will appear here..."></textarea>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-outline" onclick="generateOfficialPDF()">Export Official Solo Genius PDF</button>
+            </div>
         </div>
     </div>
 
-    <div id="dynamic-pdf-content" class="pdf-content-body"></div>
-</div>
+    <!-- Hidden PDF A4 Master Template for Native Printing -->
+    <div id="pdf-export">
+        <div class="pdf-page-container">
+            <div class="pdf-brand-header">
+                <div class="pdf-logo-area">
+                    <div class="pdf-logo-icon">SG</div>
+                    <span style="font-weight: bold; letter-spacing: 2px; color: #ffffff;">SOLO GENIUS MUSICAL SCHOOL</span>
+                </div>
+                <span id="printDocType">PROGRESS REPORT</span>
+            </div>
+            
+            <!-- Founder Card Block with updated text -->
+            <div class="pdf-gold-box">
+                <div class="pdf-founder-card-mock">
+                    <div style="font-size: 8px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 10px; color: #ffffff; font-weight: bold; letter-spacing: 1px;">YANG KARG</div>
+                        <div style="font-size: 7px; color: #888888;">SG-F-0001</div>
+                    </div>
+                    <div style="font-size: 6px; color: #555555; text-align: right;">SECURE ID</div>
+                </div>
+                <div class="pdf-founder-info">
+                    <div style="color: #d4af37; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px;">YANG KARG</div>
+                    <div style="color: #888888; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Founder & Curriculum Architect</div>
+                    <div style="color: #d1d1d1; font-style: italic; font-size: 12px; line-height: 1.6;">"DIFFERENT LEARN AND CREATE"</div>
+                </div>
+            </div>
+
+            <!-- Student Metadata Grid -->
+            <div class="pdf-meta-box">
+                <div class="pdf-meta-item">
+                    <span>Student Name</span>
+                    <strong id="pName">-</strong>
+                </div>
+                <div class="pdf-meta-item">
+                    <span>Student ID</span>
+                    <strong id="pId">-</strong>
+                </div>
+                <div class="pdf-meta-item">
+                    <span>Program / Level</span>
+                    <strong id="pProgram">-</strong>
+                </div>
+                <div class="pdf-meta-item">
+                    <span>Instructor</span>
+                    <strong id="pInstructor">-</strong>
+                </div>
+                <div class="pdf-meta-item">
+                    <span>Document ID</span>
+                    <strong id="pDocId" style="color: var(--gold);">-</strong>
+                </div>
+                <div class="pdf-meta-item">
+                    <span>Verification</span>
+                    <strong style="color: #4ade80;">SECURED &bull; VERIFIED</strong>
+                </div>
+            </div>
+
+            <!-- Dynamic Official Content -->
+            <div id="printBody" class="pdf-content-body"></div>
+
+            <!-- Official Footer -->
+            <div class="pdf-footer">
+                <span>SOLO GENIUS DOCUMENT STUDIO &bull; OFFICIAL SYSTEM RECORD</span>
+                <span>Page 1 of 1</span>
+            </div>
+        </div>
+    </div>
 
 <script>
-    async function processRequest() {
-        const input = document.getElementById('userQuestion').value.trim();
+    async function processAIIntelligence() {
+        const notes = document.getElementById('roughNotes').value.trim();
+        const docType = document.getElementById('docType').value;
+        const studentName = document.getElementById('studentName').value;
         const status = document.getElementById('loadingStatus');
-        const output = document.getElementById('answerPreview');
         const err = document.getElementById('errorBanner');
-        const btn = document.getElementById('generateBtn');
+        const refinedBox = document.getElementById('refinedContent');
 
-        if (!input) {
-            err.innerText = "Error: Please enter a question or topic to process.";
+        if (!notes) {
+            err.innerText = "Error: Please enter rough notes or learning evidence to process.";
             err.style.display = 'block';
             return;
         }
 
         status.style.display = 'block';
         err.style.display = 'none';
-        output.innerText = "Processing...";
-        output.style.color = "var(--text-muted)";
-        btn.disabled = true;
+
+        const promptText = `Convert the following student learning notes into a highly professional, structured official Solo Genius ${docType} for student ${studentName}. Do not fabricate fake achievements, strictly format and elevate the provided evidence into professional academic/musical language:\n\nNotes: ${notes}`;
 
         try {
             const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: input })
+                body: JSON.stringify({ message: promptText })
             });
 
             const data = await res.json();
-            if (!res.ok) throw new Error(data.error || "Failed to process request");
+            if (!res.ok) throw new Error(data.error || "Failed to process AI refinement");
 
-            output.innerText = data.reply;
-            output.style.color = "var(--text-bright)";
-            document.getElementById('pdfContent').value = data.reply;
+            refinedBox.value = data.reply;
         } catch (e) {
             err.innerText = "System Error: " + e.message;
             err.style.display = 'block';
-            output.innerText = "Execution failed.";
         } finally {
             status.style.display = 'none';
-            btn.disabled = false;
         }
     }
 
-    function copyAnswerToEditor() {
-        const answerText = document.getElementById('answerPreview').innerText;
-        if (!answerText || answerText.includes("ဤနေရာတွင် ပေါ်လာပါမည်") || answerText === "Processing...") {
-            alert('No extraction output available to transfer.');
-            return;
-        }
-        document.getElementById('pdfContent').value = answerText;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    function generateLuxuryPDF() {
-        const content = document.getElementById('pdfContent').value.trim();
+    function generateOfficialPDF() {
+        const content = document.getElementById('refinedContent').value.trim();
         const err = document.getElementById('errorBanner');
-        
+
         if (!content) {
-            err.innerText = "Error: PDF content editor is empty. Generate or paste content before exporting.";
+            err.innerText = "Error: Refined content is empty. Please run AI intelligence or write content before exporting.";
             err.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
 
         err.style.display = 'none';
-        document.getElementById('dynamic-pdf-content').innerText = content;
-        
-        // Triggers browser native high-fidelity print dialog (Select "Save as PDF")
+
+        // Bind form data to print template
+        document.getElementById('printDocType').innerText = document.getElementById('docType').value.toUpperCase();
+        document.getElementById('pName').innerText = document.getElementById('studentName').value;
+        document.getElementById('pId').innerText = document.getElementById('studentId').value;
+        document.getElementById('pProgram').innerText = document.getElementById('studentProgram').value;
+        document.getElementById('pInstructor').innerText = document.getElementById('instructorName').value;
+        document.getElementById('pDocId').innerText = document.getElementById('docUniqueId').value;
+        document.getElementById('printBody').innerText = content;
+
+        // Trigger native browser print engine (Save as PDF) with zero margins
         window.print();
     }
 </script>
