@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLO GENIUS &bull; AI INSTRUCTOR STUDIO</title>
+    <title>SOLO GENIUS &bull; DOCUMENT & INSTRUCTOR STUDIO</title>
     <!-- Pyidaungsu Font -->
     <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -178,7 +178,7 @@
             font-size: 13px;
         }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold); }
-        textarea { height: 120px; resize: vertical; line-height: 1.6; }
+        textarea { height: 140px; resize: vertical; line-height: 1.6; }
 
         .btn-group { display: flex; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
         button { background: var(--gold); color: var(--bg-color); font-weight: bold; font-size: 12px; padding: 12px 24px; border: none; cursor: pointer; letter-spacing: 2px; text-transform: uppercase; transition: all 0.2s ease; }
@@ -258,12 +258,6 @@
             line-height: 1.5;
         }
 
-        /* PDF Export Master Template (Hidden) */
-        #pdf-export { display: none; }
-        .pdf-page-container {
-            width: 210mm; min-height: 297mm; padding: 15mm; background-color: #050505; color: #d1d1d1; box-sizing: border-box; margin: 0 auto; border: 1px solid var(--border-color);
-        }
-
         /* Responsive */
         @media (max-width: 768px) {
             body { flex-direction: column; height: auto; overflow: auto; }
@@ -290,12 +284,12 @@
         <div class="sidebar-brand">Solo Genius &bull; Studio</div>
         <ul class="sidebar-menu">
             <li><a class="create-btn" onclick="switchView('dashboard'); closeMobileMenu();">+ Create Document</a></li>
-            <li id="menu-dashboard"><a onclick="switchView('dashboard'); closeMobileMenu();">Dashboard</a></li>
+            <li id="menu-dashboard" class="active"><a onclick="switchView('dashboard'); closeMobileMenu();">Dashboard</a></li>
             <li id="menu-templates"><a onclick="switchView('templates'); closeMobileMenu();">Templates</a></li>
             <li id="menu-documents"><a onclick="switchView('documents'); closeMobileMenu();">My Documents</a></li>
             <li id="menu-drafts"><a onclick="switchView('drafts'); closeMobileMenu();">Drafts</a></li>
             <li id="menu-verified"><a onclick="switchView('verified'); closeMobileMenu();">Verified Docs</a></li>
-            <li id="menu-assistant" class="active"><a onclick="switchView('assistant'); closeMobileMenu();">AI Assistant</a></li>
+            <li id="menu-assistant"><a onclick="switchView('assistant'); closeMobileMenu();">AI Assistant</a></li>
             <li id="menu-settings"><a onclick="switchView('settings'); closeMobileMenu();">Brand Settings</a></li>
             <li id="menu-profile"><a onclick="switchView('profile'); closeMobileMenu();">Profile</a></li>
         </ul>
@@ -304,12 +298,12 @@
     <!-- Main Content Workspace -->
     <div class="main-content">
         <div class="header-top">
-            <h2 id="viewTitle">System Intelligence Engine</h2>
+            <h2 id="viewTitle">Document Intelligence Studio</h2>
             <div class="system-status">Engine: OpenRouter (Auto) &bull; Official Protocol</div>
         </div>
 
-        <!-- VIEW 01: DASHBOARD -->
-        <div id="view-dashboard" class="view-section">
+        <!-- VIEW 01: DASHBOARD (Includes 03 A4 Preview & PDF Export) -->
+        <div id="view-dashboard" class="view-section active">
             <div class="panel">
                 <div class="panel-title">01 — Select Template & Student Identity</div>
                 <div class="form-grid">
@@ -319,6 +313,9 @@
                             <option value="Progress Report">Progress Report</option>
                             <option value="Learning Report">Learning Report</option>
                             <option value="Practice Report">Practice Report</option>
+                            <option value="Project Report">Project Report</option>
+                            <option value="Assessment">Assessment</option>
+                            <option value="Certificate">Certificate</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -343,17 +340,33 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel">
                 <div class="panel-title">02 — Smart Form & AI Document Assistant</div>
                 <div class="form-group">
                     <label>Rough Notes / Learning Evidence (Input)</label>
-                    <textarea id="roughNotes" placeholder="ဥပမာ - ဒီအပတ် C major scale practice လုပ်တယ်။"></textarea>
+                    <textarea id="roughNotes" placeholder="ဥပမာ - ဒီအပတ် C major scale practice လုပ်တယ်။ timing နည်းနည်းမတည်ငြိမ်သေးဘူး။ chord changes ပိုကောင်းလာတယ်။"></textarea>
                 </div>
+                
                 <div class="btn-group">
                     <button onclick="processAIIntelligence()">AI &rarr; Structure &rarr; Refine Document</button>
                 </div>
+
                 <div id="loadingStatus" class="loading-state">Processing via OpenRouter Engine...</div>
                 <div id="errorBanner" class="error-banner"></div>
+            </div>
+
+            <!-- RESTORED: 03 Live Editor & Official PDF Export Box -->
+            <div class="panel">
+                <div class="panel-title">03 — Live A4 Preview & Brand Document Publishing</div>
+                <div class="form-group">
+                    <label>Refined Official Content Editor</label>
+                    <textarea id="refinedContent" style="height: 180px;" placeholder="AI refined official content will appear here..."></textarea>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn-outline" onclick="generateOfficialPDF('dashboard')">Export Official Solo Genius PDF</button>
+                </div>
             </div>
         </div>
 
@@ -385,12 +398,12 @@
             <div class="panel"><div class="panel-title">Secured & Verified Protocols</div></div>
         </div>
 
-        <!-- VIEW 06: AI ASSISTANT (SOLO GENIUS OFFICIAL INSTRUCTOR) -->
-        <div id="view-assistant" class="view-section active">
+        <!-- VIEW 06: AI ASSISTANT (SOLO GENIUS OFFICIAL INSTRUCTOR & PDF EXPORT) -->
+        <div id="view-assistant" class="view-section">
             <div class="panel">
                 <div class="panel-title">Solo Genius &bull; Official Guitar Instructor AI</div>
                 <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 25px;">
-                    Student Practice & Technical Verification Portal. Ask questions about guitar technique, chord shapes, music theory, or upload photo/video descriptions for rigorous evaluation.
+                    Student Practice & Technical Verification Portal. Check chords, hand position, and rhythm with the Solo Genius instructor system.
                 </p>
 
                 <div class="form-grid">
@@ -411,12 +424,12 @@
 
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label>Media Evidence / Photo or Video Link / Description</label>
-                    <input type="text" id="aiMediaInput" placeholder="ဥပမာ - F Major bar chord ဖမ်းထားတဲ့ပုံ သို့မဟုတ် video link တင်ရန်">
+                    <input type="text" id="aiMediaInput" placeholder="ဥပမာ - Gmaj7 chord ဖမ်းထားတဲ့ပုံ သို့မဟုတ် video link တင်ရန်">
                 </div>
 
                 <div class="form-group">
                     <label>Student Question / Problem Statement</label>
-                    <textarea id="aiStudentQuestion" placeholder="ဥပမာ - ကျွန်တော် F major bar chord ကိုရင်ဆိုင်တဲ့အခါ 2nd နဲ့ 3rd string တွေက အသံတိတ်နေတယ် (muffled sound ဖြစ်နေတယ်)။ ဘာတွေမှားနေလို့လဲ စစ်ပေးပါ။"></textarea>
+                    <textarea id="aiStudentQuestion" placeholder="ဥပမာ - Gmaj7 chord နေရာမှန်ရဲ့လား စစ်ပေးပါ။"></textarea>
                 </div>
 
                 <div class="btn-group">
@@ -432,8 +445,11 @@
                         <span>Instructor Verdict & Feedback Analysis</span>
                         <span id="verdictBadge" class="status-badge correction">NEEDS CORRECTION</span>
                     </div>
-                    <div class="chat-body-content" id="instructorReplyContent">
-                        <!-- AI Response will appear here -->
+                    <div class="chat-body-content" id="instructorReplyContent"></div>
+
+                    <!-- ADDED: PDF Export Button inside AI Assistant -->
+                    <div class="btn-group" style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 15px;">
+                        <button class="btn-outline" onclick="generateOfficialPDF('assistant')">Export Official Instructor Report PDF</button>
                     </div>
                 </div>
             </div>
@@ -495,6 +511,45 @@
         switchView('dashboard');
     }
 
+    async function processAIIntelligence() {
+        const notes = document.getElementById('roughNotes').value.trim();
+        const docType = document.getElementById('docType').value;
+        const studentName = document.getElementById('studentName').value;
+        const status = document.getElementById('loadingStatus');
+        const err = document.getElementById('errorBanner');
+        const refinedBox = document.getElementById('refinedContent');
+
+        if (!notes) {
+            err.innerText = "Error: Please enter rough notes or learning evidence to process.";
+            err.style.display = 'block';
+            return;
+        }
+
+        status.style.display = 'block';
+        err.style.display = 'none';
+
+        const promptText = `Convert the following student learning notes into a highly professional, structured official Solo Genius ${docType} for student ${studentName}. 
+CRITICAL RULE: You must write the entire output strictly in professional English language. Do not use any markdown symbols such as hashes (#) or asterisks (*). Keep it extremely concise, clean, and direct without fluff:\n\nNotes: ${notes}`;
+
+        try {
+            const res = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: promptText })
+            });
+
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || "Failed to process AI refinement");
+
+            refinedBox.value = data.reply;
+        } catch (e) {
+            err.innerText = "System Error: " + e.message;
+            err.style.display = 'block';
+        } finally {
+            status.style.display = 'none';
+        }
+    }
+
     // AI Instructor Evaluation Handler
     async function submitInstructorQuery() {
         const student = document.getElementById('aiStudentName').value;
@@ -525,7 +580,7 @@ Student Question / Problem: "${question}"
 
 Provide a rigorous, high-end professional response structured as follows:
 1. VERDICT: State clearly whether the technique/answer is CONFIRMED & CORRECT or REQUIRES CORRECTION.
-2. DETAILED ANALYSIS (Why it is correct or why it is wrong): Break down the physical mechanics, finger positioning, chord degree theory, or timing accuracy.
+2. DETAILED ANALYSIS (Why it is correct or why it is wrong): Break down physical mechanics, finger positioning, chord degree theory, or timing.
 3. ACTIONABLE CORRECTION STEPS: Precise instructions on how to fix errors or elevate mastery.
 
 CRITICAL RULE: Write strictly in professional English. Avoid markdown symbols like hashes or asterisks. Keep it concise, direct, and high-end.`;
@@ -543,7 +598,6 @@ CRITICAL RULE: Write strictly in professional English. Avoid markdown symbols li
             const replyText = data.reply;
             replyContent.innerText = replyText;
 
-            // Determine badge status based on reply
             if (replyText.toUpperCase().includes("CONFIRMED") || replyText.toUpperCase().includes("CORRECT")) {
                 verdictBadge.innerText = "CONFIRMED & VERIFIED";
                 verdictBadge.className = "status-badge confirmed";
@@ -559,6 +613,171 @@ CRITICAL RULE: Write strictly in professional English. Avoid markdown symbols li
         } finally {
             loading.style.display = 'none';
         }
+    }
+
+    // Universal PDF Export Function (Works on Dashboard & AI Assistant)
+    function generateOfficialPDF(sourceType) {
+        let content = "";
+        let docTypeVal = "";
+        let studentNameVal = "";
+        let studentIdVal = "";
+        let programVal = "";
+        let instructorVal = "";
+        let docIdVal = "";
+
+        if (sourceType === 'dashboard') {
+            content = document.getElementById('refinedContent').value.trim();
+            docTypeVal = document.getElementById('docType').value.toUpperCase();
+            studentNameVal = document.getElementById('studentName').value;
+            studentIdVal = document.getElementById('studentId').value;
+            programVal = document.getElementById('studentProgram').value;
+            instructorVal = document.getElementById('instructorName').value;
+            docIdVal = document.getElementById('docUniqueId').value;
+
+            if (!content) {
+                alert("Error: Refined content is empty. Please run AI intelligence or write content before exporting.");
+                return;
+            }
+        } else if (sourceType === 'assistant') {
+            content = document.getElementById('instructorReplyContent').innerText.trim();
+            docTypeVal = "INSTRUCTOR TECHNICAL VERIFICATION REPORT";
+            studentNameVal = document.getElementById('aiStudentName').value;
+            studentIdVal = "SG-STU-2026-008";
+            programVal = "Advanced Guitar Architecture &bull; Level 3";
+            instructorVal = "Yang Karg (YMK)";
+            docIdVal = "SG-VER-2026-00184";
+
+            if (!content) {
+                alert("Error: No instructor evaluation found. Please ask a question first.");
+                return;
+            }
+        }
+
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            alert("Error: Pop-up blocked by browser. Please allow pop-ups to export PDF.");
+            return;
+        }
+
+        const htmlContent = `<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>${studentNameVal} - ${docTypeVal}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #d1d1d1;
+            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .pdf-page-container {
+            width: 100%;
+            max-width: 210mm;
+            padding: 15mm;
+            background-color: #050505;
+            color: #d1d1d1;
+            box-sizing: border-box;
+            margin: 0 auto;
+            border: 1px solid #2a2a2a;
+        }
+        .pdf-brand-header { 
+            font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; 
+            margin-bottom: 20px; border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .pdf-logo-area { display: flex; align-items: center; gap: 12px; }
+        .pdf-logo-icon {
+            width: 28px; height: 28px; border: 2px solid #d4af37;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 12px; color: #d4af37; background: #000000;
+        }
+        .pdf-gold-box { 
+            border: 1px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; 
+            display: flex; align-items: center; gap: 25px; 
+        }
+        .pdf-founder-card-mock {
+            width: 120px; height: 160px; background: #000000; border: 1px solid #d4af37;
+            display: flex; flex-direction: column; justify-content: space-between; padding: 10px; box-sizing: border-box; flex-shrink: 0;
+        }
+        .pdf-meta-box {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            background: #0c0f14; border: 1px solid #2a2a2a; padding: 15px; margin-bottom: 20px; font-size: 11px;
+        }
+        .pdf-meta-item span { display: block; color: #888888; text-transform: uppercase; margin-bottom: 4px; }
+        .pdf-meta-item strong { color: #ffffff; }
+        .pdf-content-body { 
+            font-size: 13px; line-height: 1.8; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; 
+            background: #0c0f14; border: 1px solid #2a2a2a; padding: 20px; 
+        }
+        .pdf-footer {
+            margin-top: 30px; display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid #2a2a2a; padding-top: 15px; font-size: 10px; color: #888888; letter-spacing: 1px;
+        }
+        @media print {
+            body { background: #050505 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0; }
+            .pdf-page-container { border: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-page-container">
+        <div class="pdf-brand-header">
+            <div class="pdf-logo-area">
+                <div class="pdf-logo-icon">SG</div>
+                <span style="font-weight: bold; letter-spacing: 2px; color: #ffffff;">SOLO GENIUS MUSICAL SCHOOL</span>
+            </div>
+            <span>${docTypeVal}</span>
+        </div>
+        
+        <div class="pdf-gold-box">
+            <div class="pdf-founder-card-mock">
+                <div style="font-size: 7px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
+                <div style="text-align: center;">
+                    <div style="font-size: 9px; color: #ffffff; font-weight: bold; letter-spacing: 1px;">YANG KARG</div>
+                    <div style="font-size: 6px; color: #888888;">SG-F-0001</div>
+                </div>
+                <div style="font-size: 6px; color: #555555; text-align: right;">SECURE ID</div>
+            </div>
+            <div>
+                <div style="color: #d4af37; font-size: 16px; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px;">YANG KARG</div>
+                <div style="color: #888888; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Founder & Curriculum Architect</div>
+                <div style="color: #d1d1d1; font-style: italic; font-size: 11px;">"DIFFERENT LEARN AND CREATE"</div>
+            </div>
+        </div>
+
+        <div class="pdf-meta-box">
+            <div class="pdf-meta-item"><span>Student Name</span><strong>${studentNameVal}</strong></div>
+            <div class="pdf-meta-item"><span>Student ID</span><strong>${studentIdVal}</strong></div>
+            <div class="pdf-meta-item"><span>Program / Level</span><strong>${programVal}</strong></div>
+            <div class="pdf-meta-item"><span>Instructor</span><strong>${instructorVal}</strong></div>
+            <div class="pdf-meta-item"><span>Document ID</span><strong style="color: #d4af37;">${docIdVal}</strong></div>
+            <div class="pdf-meta-item"><span>Verification</span><strong style="color: #4ade80;">SECURED &bull; VERIFIED</strong></div>
+        </div>
+
+        <div class="pdf-content-body">${content}</div>
+
+        <div class="pdf-footer">
+            <span>SOLO GENIUS DOCUMENT STUDIO &bull; OFFICIAL SYSTEM RECORD</span>
+            <span>Page 1 of 1</span>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 500);
+        };
+    <\/script>
+</body>
+</html>`;
+
+        printWindow.document.open();
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
     }
 </script>
 </body>
