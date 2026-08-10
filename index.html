@@ -219,30 +219,8 @@
             line-height: 1.5;
         }
 
-        /* PDF Export / Live A4 Preview Template */
+        /* PDF Export Master Template (Hidden in main view) */
         #pdf-export { display: none; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #pdf-export, #pdf-export * { visibility: visible; }
-            #pdf-export {
-                display: block !important;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100vw;
-                min-height: 100vh;
-                background-color: #050505 !important;
-                color: #d1d1d1 !important;
-                padding: 15mm;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            @page {
-                size: A4 portrait;
-                margin: 0;
-            }
-        }
 
         .pdf-page-container {
             width: 210mm;
@@ -533,7 +511,7 @@
 
     </div>
 
-    <!-- Hidden PDF A4 Master Template for Native Printing & Blob Download -->
+    <!-- Hidden PDF A4 Master Template -->
     <div id="pdf-export">
         <div class="pdf-page-container">
             <div class="pdf-brand-header">
@@ -695,34 +673,141 @@ CRITICAL RULE: You must write the entire output strictly in professional English
 
         err.style.display = 'none';
 
-        // Update print template fields
-        document.getElementById('printDocType').innerText = document.getElementById('docType').value.toUpperCase();
-        document.getElementById('pName').innerText = document.getElementById('studentName').value;
-        document.getElementById('pId').innerText = document.getElementById('studentId').value;
-        document.getElementById('pProgram').innerText = document.getElementById('studentProgram').value;
-        document.getElementById('pInstructor').innerText = document.getElementById('instructorName').value;
-        document.getElementById('pDocId').innerText = document.getElementById('docUniqueId').value;
-        document.getElementById('printBody').innerText = content;
+        // Gather values
+        const docTypeVal = document.getElementById('docType').value.toUpperCase();
+        const studentNameVal = document.getElementById('studentName').value;
+        const studentIdVal = document.getElementById('studentId').value;
+        const programVal = document.getElementById('studentProgram').value;
+        const instructorVal = document.getElementById('instructorName').value;
+        const docIdVal = document.getElementById('docUniqueId').value;
 
-        // Auto Download Blob Engine for Mobile & Desktop
-        const studentNameClean = document.getElementById('studentName').value.replace(/[^a-zA-Z0-9]/g, '_');
-        const docTypeNameClean = document.getElementById('docType').value.replace(/[^a-zA-Z0-9]/g, '_');
-        const fileName = `${studentNameClean}_${docTypeNameClean}.pdf`;
+        // Create New Print Window / Tab (Universal Mobile & Desktop Support)
+        const printWindow = window.open('', '_blank');
+        if (!printWindow) {
+            err.innerText = "Error: Pop-up blocked by browser. Please allow pop-ups to export PDF.";
+            err.style.display = 'block';
+            return;
+        }
 
-        const exportHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${fileName}</title><style>body{background:#050505;color:#d1d1d1;font-family:sans-serif;padding:30px;max-width:800px;margin:0 auto;}.brand{color:#d4af37;font-size:12px;letter-spacing:3px;margin-bottom:20px;text-transform:uppercase;border-bottom:1px solid #2a2a2a;padding-bottom:10px;}.box{background:#0c0f14;border:1px solid #2a2a2a;padding:25px;margin-top:20px;line-height:1.8;white-space:pre-wrap;font-size:14px;color:#fff;}.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#0c0f14;border:1px solid #2a2a2a;padding:15px;font-size:12px;}.meta span{color:#888;display:block;margin-bottom:3px;}</style></head><body><div class="brand">SOLO GENIUS MUSICAL SCHOOL &bull; ${document.getElementById('docType').value.toUpperCase()}</div><div class="meta"><div><span>STUDENT NAME:</span><strong>${document.getElementById('studentName').value}</strong></div><div><span>DOCUMENT ID:</span><strong style="color:#d4af37;">${document.getElementById('docUniqueId').value}</strong></div><div><span>PROGRAM:</span><strong>${document.getElementById('studentProgram').value}</strong></div><div><span>INSTRUCTOR:</span><strong>${document.getElementById('instructorName').value}</strong></div></div><div class="box">${content}</div></body></html>`;
-
-        const blob = new Blob([exportHTML], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
+        const htmlContent = `<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <title>${studentNameVal} - ${docTypeVal}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #d1d1d1;
+            font-family: "Pyidaungsu", "Myanmar Unicode", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .pdf-page-container {
+            width: 100%;
+            max-width: 210mm;
+            padding: 15mm;
+            background-color: #050505;
+            color: #d1d1d1;
+            box-sizing: border-box;
+            margin: 0 auto;
+            border: 1px solid #2a2a2a;
+        }
+        .pdf-brand-header { 
+            font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; 
+            margin-bottom: 20px; border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .pdf-logo-area { display: flex; align-items: center; gap: 12px; }
+        .pdf-logo-icon {
+            width: 28px; height: 28px; border: 2px solid #d4af37;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 12px; color: #d4af37; background: #000000;
+        }
+        .pdf-gold-box { 
+            border: 1px solid #d4af37; background: #0c0f14; padding: 20px; margin-bottom: 20px; 
+            display: flex; align-items: center; gap: 25px; 
+        }
+        .pdf-founder-card-mock {
+            width: 120px; height: 160px; background: #000000; border: 1px solid #d4af37;
+            display: flex; flex-direction: column; justify-content: space-between; padding: 10px; box-sizing: border-box; flex-shrink: 0;
+        }
+        .pdf-meta-box {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
+            background: #0c0f14; border: 1px solid #2a2a2a; padding: 15px; margin-bottom: 20px; font-size: 11px;
+        }
+        .pdf-meta-item span { display: block; color: #888888; text-transform: uppercase; margin-bottom: 4px; }
+        .pdf-meta-item strong { color: #ffffff; }
+        .pdf-content-body { 
+            font-size: 13px; line-height: 1.8; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; 
+            background: #0c0f14; border: 1px solid #2a2a2a; padding: 20px; 
+        }
+        .pdf-footer {
+            margin-top: 30px; display: flex; justify-content: space-between; align-items: center;
+            border-top: 1px solid #2a2a2a; padding-top: 15px; font-size: 10px; color: #888888; letter-spacing: 1px;
+        }
+        @media print {
+            body { background: #050505 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 0; }
+            .pdf-page-container { border: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-page-container">
+        <div class="pdf-brand-header">
+            <div class="pdf-logo-area">
+                <div class="pdf-logo-icon">SG</div>
+                <span style="font-weight: bold; letter-spacing: 2px; color: #ffffff;">SOLO GENIUS MUSICAL SCHOOL</span>
+            </div>
+            <span>${docTypeVal}</span>
+        </div>
         
-        setTimeout(() => {
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }, 500);
+        <div class="pdf-gold-box">
+            <div class="pdf-founder-card-mock">
+                <div style="font-size: 7px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
+                <div style="text-align: center;">
+                    <div style="font-size: 9px; color: #ffffff; font-weight: bold; letter-spacing: 1px;">YANG KARG</div>
+                    <div style="font-size: 6px; color: #888888;">SG-F-0001</div>
+                </div>
+                <div style="font-size: 6px; color: #555555; text-align: right;">SECURE ID</div>
+            </div>
+            <div>
+                <div style="color: #d4af37; font-size: 16px; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px;">YANG KARG</div>
+                <div style="color: #888888; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Founder & Curriculum Architect</div>
+                <div style="color: #d1d1d1; font-style: italic; font-size: 11px;">"DIFFERENT LEARN AND CREATE"</div>
+            </div>
+        </div>
+
+        <div class="pdf-meta-box">
+            <div class="pdf-meta-item"><span>Student Name</span><strong>${studentNameVal}</strong></div>
+            <div class="pdf-meta-item"><span>Student ID</span><strong>${studentIdVal}</strong></div>
+            <div class="pdf-meta-item"><span>Program / Level</span><strong>${programVal}</strong></div>
+            <div class="pdf-meta-item"><span>Instructor</span><strong>${instructorVal}</strong></div>
+            <div class="pdf-meta-item"><span>Document ID</span><strong style="color: #d4af37;">${docIdVal}</strong></div>
+            <div class="pdf-meta-item"><span>Verification</span><strong style="color: #4ade80;">SECURED &bull; VERIFIED</strong></div>
+        </div>
+
+        <div class="pdf-content-body">${content}</div>
+
+        <div class="pdf-footer">
+            <span>SOLO GENIUS DOCUMENT STUDIO &bull; OFFICIAL SYSTEM RECORD</span>
+            <span>Page 1 of 1</span>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 500);
+        };
+    <\/script>
+</body>
+</html>`;
+
+        printWindow.document.open();
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
     }
 </script>
 </body>
