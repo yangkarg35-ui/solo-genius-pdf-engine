@@ -533,7 +533,7 @@
 
     </div>
 
-    <!-- Hidden PDF A4 Master Template for Native Printing -->
+    <!-- Hidden PDF A4 Master Template for Native Printing & Blob Download -->
     <div id="pdf-export">
         <div class="pdf-page-container">
             <div class="pdf-brand-header">
@@ -695,6 +695,7 @@ CRITICAL RULE: You must write the entire output strictly in professional English
 
         err.style.display = 'none';
 
+        // Update print template fields
         document.getElementById('printDocType').innerText = document.getElementById('docType').value.toUpperCase();
         document.getElementById('pName').innerText = document.getElementById('studentName').value;
         document.getElementById('pId').innerText = document.getElementById('studentId').value;
@@ -703,7 +704,25 @@ CRITICAL RULE: You must write the entire output strictly in professional English
         document.getElementById('pDocId').innerText = document.getElementById('docUniqueId').value;
         document.getElementById('printBody').innerText = content;
 
-        window.print();
+        // Mobile & Desktop Robust PDF Download / Print Fallback
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        if (isMobile) {
+            // Mobile Blob Download as HTML/Text formatted document report
+            const exportHTML = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Solo Genius Report</title><style>body{background:#050505;color:#d1d1d1;font-family:sans-serif;padding:20px;}h1{color:#d4af37;font-size:16px;letter-spacing:2px;border-bottom:1px solid #2a2a2a;padding-bottom:10px;}.box{background:#0c0f14;border:1px solid #2a2a2a;padding:20px;margin-top:20px;white-space:pre-wrap;line-height:1.8;}</style></head><body><h1>SOLO GENIUS MUSICAL SCHOOL &bull; ${document.getElementById('docType').value.toUpperCase()}</h1><div class="box"><strong>Student:</strong> ${document.getElementById('studentName').value} (${document.getElementById('studentId').value})\n<strong>Document ID:</strong> ${document.getElementById('docUniqueId').value}\n\n${content}</div></body></html>`;
+            
+            const blob = new Blob([exportHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${document.getElementById('studentName').value}_Solo_Genius_Report.html`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            window.print();
+        }
     }
 </script>
 </body>
