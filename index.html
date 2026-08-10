@@ -271,7 +271,7 @@
     <div class="main-content">
         <div class="header-top">
             <h2>Document Intelligence Studio</h2>
-            <div class="system-status">Engine: Groq (Llama 3.3) &bull; Official Protocol</div>
+            <div class="system-status">Engine: OpenRouter (Claude 3.5 Sonnet) &bull; Official Protocol</div>
         </div>
 
         <div class="panel">
@@ -323,7 +323,7 @@
                 <button onclick="processAIIntelligence()">AI &rarr; Structure &rarr; Refine Document</button>
             </div>
 
-            <div id="loadingStatus" class="loading-state">Processing via Groq Llama 3.3...</div>
+            <div id="loadingStatus" class="loading-state">Processing via OpenRouter (Claude 3.5 Sonnet)...</div>
             <div id="errorBanner" class="error-banner"></div>
         </div>
 
@@ -425,7 +425,9 @@
         status.style.display = 'block';
         err.style.display = 'none';
 
-        const promptText = `Convert the following student learning notes into a highly professional, structured official Solo Genius ${docType} for student ${studentName}. Do not fabricate fake achievements, strictly format and elevate the provided evidence into professional academic/musical language:\n\nNotes: ${notes}`;
+        // Strict English Enforcement Prompt Architecture
+        const promptText = `Convert the following student learning notes into a highly professional, structured official Solo Genius ${docType} for student ${studentName}. 
+CRITICAL RULE: You must write the entire output strictly in professional English language, regardless of what language the input notes are written in. Do not use any other language. Do not fabricate fake achievements, strictly format and elevate the provided evidence into professional academic/musical English language:\n\nNotes: ${notes}`;
 
         try {
             const res = await fetch('/api/chat', {
