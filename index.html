@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLO GENIUS AI INTELLIGENCE PORTAL</title>
+    <title>SOLO GENIUS MUSICAL SCHOOL &bull; AI INTELLIGENCE PORTAL</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
@@ -17,7 +17,6 @@
             --text-muted: #888888;
         }
 
-        /* Global Font Fixing for Myanmar Unicode */
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -31,7 +30,7 @@
 
         .container { max-width: 950px; margin: 0 auto; }
         .header-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px; }
-        h2 { color: var(--gold); letter-spacing: 3px; font-size: 18px; text-transform: uppercase; margin: 0; }
+        h2 { color: var(--gold); letter-spacing: 3px; font-size: 16px; text-transform: uppercase; margin: 0; }
         .system-status { font-size: 11px; letter-spacing: 1px; color: var(--text-muted); text-transform: uppercase; }
         .panel { background: var(--panel-bg); border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
         .panel-title { color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
@@ -60,7 +59,7 @@
         .loading-state { color: var(--gold); font-style: italic; font-size: 13px; margin-top: 15px; display: none; }
         .error-banner { background: rgba(255, 0, 0, 0.1); border: 1px solid #ff4444; color: #ff8888; padding: 12px; margin-top: 15px; display: none; }
 
-        /* PDF Export Template Styling with Permanently Embedded Base64 Card */
+        /* PDF Export Template Styling matching the Exact Reference Image */
         #pdf-export { 
             display: none; 
             width: 210mm; 
@@ -73,8 +72,35 @@
             -webkit-font-smoothing: antialiased;
         }
         .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; margin-bottom: 15px; border-bottom: 1px solid #2a2a2a; padding-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .pdf-gold-box { border-left: 4px solid #d4af37; background: #0c0f14; padding: 15px 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-        .pdf-brand-card-img { width: 240px; height: auto; border: 1px solid #d4af37; box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        
+        /* Exact Card Box Layout as requested */
+        .pdf-gold-box { 
+            border: 1px solid #d4af37; 
+            background: #0c0f14; 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 25px; 
+        }
+        .pdf-founder-card-mock {
+            width: 140px;
+            height: 200px;
+            background: #000000;
+            border: 1px solid #d4af37;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+        }
+        .pdf-founder-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         .pdf-content-body { font-size: 12px; line-height: 1.9; color: #ffffff; white-space: pre-wrap; word-wrap: break-word; background: #0c0f14; border: 1px solid #2a2a2a; padding: 20px; }
     </style>
 </head>
@@ -82,8 +108,8 @@
 
 <div class="container">
     <div class="header-top">
-        <h2>Solo Genius AI Intelligence Portal</h2>
-        <div class="system-status">Engine: Groq (Llama 3.3) &bull; Protocol: Public Intelligence Standard</div>
+        <h2>Solo Genius Musical School</h2>
+        <div class="system-status">Engine: Groq (Llama 3.3) &bull; Protocol: Luxury Private Standard</div>
     </div>
 
     <div class="panel">
@@ -110,20 +136,30 @@
     </div>
 </div>
 
-<!-- Hidden PDF Export Template with Permanently Embedded Base64 Founder ID Card -->
+<!-- Hidden PDF Export Template with Exact Image Layout -->
 <div id="pdf-export">
     <div class="pdf-brand-header">
         <span>Solo Genius Musical School &bull; Intelligence Document</span>
-        <span>Founder: Yang Karg (SG-F-0001)</span>
+        <span>Page 1 of 1</span>
     </div>
+    
+    <!-- Founder Card Block matched with reference image -->
     <div class="pdf-gold-box">
-        <div>
-            <div style="color: #d4af37; font-weight: bold; font-style: italic; font-size: 15px; margin-bottom: 6px;">"Useful Truth over Pleasant Agreement &bull; First Principles Reasoning"</div>
-            <div style="color: #d4af37; font-size: 10px; letter-spacing: 1px; text-transform: uppercase;">Signal > Noise &bull; Application > Information &bull; Luxury Private Standard</div>
+        <div class="pdf-founder-card-mock">
+            <div style="font-size: 8px; color: #d4af37; letter-spacing: 1px;">SOLO GENIUS</div>
+            <div style="text-align: center;">
+                <div style="font-size: 10px; color: #ffffff; font-weight: bold; letter-spacing: 1px;">YANG KARG</div>
+                <div style="font-size: 7px; color: #888888;">SG-F-0001</div>
+            </div>
+            <div style="font-size: 6px; color: #555555; text-align: right;">SECURE ID</div>
         </div>
-        <!-- Permanently Embedded Founder ID Card via Base64 -->
-        <img src="[INSERT_BASE64_OR_USE_PREBUILT_FILE]" alt="Solo Genius Founder ID Card" class="pdf-brand-card-img" id="embeddedCardImg">
+        <div class="pdf-founder-info">
+            <div style="color: #d4af37; font-size: 18px; font-weight: bold; letter-spacing: 2px; margin-bottom: 4px;">YANG KARG</div>
+            <div style="color: #888888; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">Founder & Curriculum Architect</div>
+            <div style="color: #d1d1d1; font-style: italic; font-size: 12px; line-height: 1.6;">"Music is a vehicle for a greater identity. Not just a music school, we build creative thinkers."</div>
+        </div>
     </div>
+
     <div id="dynamic-pdf-content" class="pdf-content-body"></div>
 </div>
 
@@ -199,7 +235,7 @@
         
         const opt = {
             margin: 10,
-            filename: 'Solo_Genius_Intelligence_Document.pdf',
+            filename: 'Solo_Genius_Music_Fundamentals.pdf',
             image: { type: 'jpeg', quality: 0.98 },
             html2canvas: { scale: 2, useCORS: true, backgroundColor: '#050505' },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
