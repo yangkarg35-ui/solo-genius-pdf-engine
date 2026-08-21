@@ -243,7 +243,6 @@ button:hover {
     margin-top: 15px; 
     display: none; 
 }
-/* AI Instructor Chat & Result Box */
 .instructor-chat-box {
     background: #000000;
     border: 1px solid var(--border-color);
@@ -278,7 +277,6 @@ button:hover {
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-/* Template Grid Styles */
 .template-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -309,7 +307,6 @@ button:hover {
     margin: 0;
     line-height: 1.5;
 }
-/* Responsive */
 @media (max-width: 768px) {
     body { flex-direction: column; height: auto; overflow: auto; }
     .mobile-header { display: flex; }
@@ -325,13 +322,11 @@ button:hover {
 </head>
 <body>
 
-<!-- Mobile Top Navigation Header -->
 <div class="mobile-header">
     <div style="font-size: 11px; letter-spacing: 2px; color: var(--gold); font-weight: bold;">SOLO GENIUS &bull; STUDIO</div>
     <button class="mobile-menu-btn" onclick="toggleMobileMenu()">MENU</button>
 </div>
 
-<!-- Sidebar Navigation -->
 <div class="sidebar" id="sidebarNav">
     <div class="sidebar-brand">Solo Genius &bull; Studio</div>
     <ul class="sidebar-menu">
@@ -347,7 +342,6 @@ button:hover {
     </ul>
 </div>
 
-<!-- Main Content Workspace -->
 <div class="main-content">
     <div class="header-top">
         <h2 id="viewTitle">Document Intelligence Studio</h2>
@@ -406,7 +400,6 @@ button:hover {
             <div id="errorBanner" class="error-banner"></div>
         </div>
 
-        <!-- 03 Live Editor & Official PDF Export Box -->
         <div class="panel">
             <div class="panel-title">03 - Live A4 Preview & Brand Document Publishing</div>
             <div class="form-group">
@@ -418,7 +411,7 @@ button:hover {
             </div>
         </div>
 
-        <!-- 04: Custom Data Slide Generator (Full-Screen & No Margins) -->
+        <!-- 04: Custom Data Slide Generator -->
         <div class="panel" style="border-color: var(--gold);">
             <div class="panel-title" style="color: var(--gold);">04 - Custom Data Slide Generator (Full Slide System)</div>
             <div class="form-group">
@@ -520,7 +513,6 @@ button:hover {
 </div>
 
 <script>
-// Mobile Menu Toggle
 function toggleMobileMenu() {
     const sidebar = document.getElementById('sidebarNav');
     sidebar.classList.toggle('mobile-open');
@@ -530,7 +522,6 @@ function closeMobileMenu() {
     sidebar.classList.remove('mobile-open');
 }
 
-// View Switcher Architecture
 function switchView(viewName) {
     const views = document.querySelectorAll('.view-section');
     views.forEach(v => v.classList.remove('active'));
@@ -596,7 +587,6 @@ async function processAIIntelligence() {
     }
 }
 
-// AI Instructor Evaluation Handler
 async function submitInstructorQuery() {
     const student = document.getElementById('aiStudentName').value;
     const category = document.getElementById('aiCategory').value;
@@ -648,42 +638,21 @@ async function submitInstructorQuery() {
     }
 }
 
-// Universal PDF Export Function
 function generateOfficialPDF(sourceType) {
     let content = "";
     let docTypeVal = "";
     let studentNameVal = "";
-    let studentIdVal = "";
-    let programVal = "";
-    let instructorVal = "";
-    let docIdVal = "";
 
     if (sourceType === 'dashboard') {
         content = document.getElementById('refinedContent').value.trim();
         docTypeVal = document.getElementById('docType').value.toUpperCase();
         studentNameVal = document.getElementById('studentName').value;
-        studentIdVal = document.getElementById('studentId').value;
-        programVal = document.getElementById('studentProgram').value;
-        instructorVal = document.getElementById('instructorName').value;
-        docIdVal = document.getElementById('docUniqueId').value;
-
-        if (!content) {
-            alert("Error: Refined content is empty.");
-            return;
-        }
+        if (!content) { alert("Error: Refined content is empty."); return; }
     } else if (sourceType === 'assistant') {
         content = document.getElementById('instructorReplyContent').innerText.trim();
         docTypeVal = "INSTRUCTOR TECHNICAL VERIFICATION REPORT";
         studentNameVal = document.getElementById('aiStudentName').value;
-        studentIdVal = "SG-STU-2026-008";
-        programVal = "Advanced Guitar Architecture &bull; Level 3";
-        instructorVal = "Yang Karg (YMK)";
-        docIdVal = "SG-VER-2026-00184";
-
-        if (!content) {
-            alert("Error: No instructor evaluation found.");
-            return;
-        }
+        if (!content) { alert("Error: No instructor evaluation found."); return; }
     }
 
     const printWindow = window.open('', '_blank');
@@ -694,11 +663,16 @@ function generateOfficialPDF(sourceType) {
 <title>${studentNameVal} ${docTypeVal}</title>
 <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
 <style>
+@page { size: auto; margin: 0mm; }
 body { background-color: #050505; color: #d1d1d1; font-family: "Pyidaungsu", sans-serif; margin: 0; padding: 20px; }
 .pdf-page-container { width: 100%; max-width: 210mm; padding: 15mm; background-color: #050505; color: #d1d1d1; margin: 0 auto; border: 1px solid #2a2a2a; }
 .pdf-brand-header { font-size: 11px; letter-spacing: 3px; color: #d4af37; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #2a2a2a; padding-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
 .pdf-content-body { font-size: 13px; line-height: 1.8; color: #ffffff; background: #0c0f14; border: 1px solid #2a2a2a; white-space: pre-wrap; padding: 20px; }
-@media print { body { background: #050505 !important; -webkit-print-color-adjust: exact; padding: 0; } }
+@media print { 
+    @page { margin: 0; size: auto; }
+    body { background: #050505 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0 !important; padding: 0 !important; }
+    .pdf-page-container { border: none; width: 100%; max-width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -717,7 +691,7 @@ body { background-color: #050505; color: #d1d1d1; font-family: "Pyidaungsu", san
     printWindow.document.close();
 }
 
-// Custom Full-Screen Slide Generator (No Margins & Full Content)
+// Custom Full-Screen Slide Generator with explicit margin: 0 fixes
 function generateCustomSlideDeck() {
     const slideText = document.getElementById('customSlideInput').value.trim();
     if (!slideText) {
@@ -739,7 +713,7 @@ function generateCustomSlideDeck() {
 <link href="https://fonts.googleapis.com/css2?family=Pyidaungsu:wght@400;700&display=swap" rel="stylesheet">
 <style>
 @page {
-    size: landscape;
+    size: 16in 9in;
     margin: 0;
 }
 body {
@@ -795,12 +769,18 @@ body {
     text-transform: uppercase;
 }
 @media print {
+    @page {
+        margin: 0;
+        size: 16in 9in;
+    }
     body, html {
         background-color: #050505 !important;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
         margin: 0 !important;
         padding: 0 !important;
+        width: 100vw;
+        height: 100vh;
     }
 }
 </style>
